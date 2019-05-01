@@ -1,0 +1,9 @@
+from edgel3.models import load_embedding_model, load_embedding_model_path
+
+def test_load_embedding_model_path():
+    embedding_model_path = load_embedding_model_path(53.5)
+    assert '/'.join(embedding_model_path.split('/')[-2:]) == 'audio_model/edgel3_audio_sparsity_53.5.h5'
+
+def test_load_embedding_model():
+    m = load_embedding_model(53.5)
+    assert m.output_shape[1] == 512

@@ -1,10 +1,10 @@
 # edgel3
 
-Look, Listen, and Learn (L3) [2],  a  recently  proposed  state-of-the-art  transfer learning technique, mitigates the first challenge by training self-supervised deep audio embedding through binary Audio-Visual Correspondence,  and  the  resulting  embedding  can  beused to train a variety of downstream audio classification tasks. However, with close to 4.7 million parameters, the multi-layerL3-Net  CNN is still prohibitively expensive to be run on small edge devices, such as 'motes' that use a single microcontroller and limited memory to achieve long-lived self-powered operation. 
+Look, Listen, and Learn (L3) [3],  a  recently  proposed  state-of-the-art  transfer learning technique, mitigates the first challenge by training self-supervised deep audio embedding through binary Audio-Visual Correspondence,  and  the  resulting  embedding  can  beused to train a variety of downstream audio classification tasks. However, with close to 4.7 million parameters, the multi-layerL3-Net  CNN is still prohibitively expensive to be run on small edge devices, such as 'motes' that use a single microcontroller and limited memory to achieve long-lived self-powered operation. 
 
 In EdgeL3 [1], we comprehensively explored the feasibility of compressing the L3-Net for mote-scale inference. We used pruning, ablation, and knowledge distillation techniques to show that the originally proposed L3-Net architecture is substantially overparameterized, not  only for AVC but for the target task of sound classification as evaluated on two popular downstream datasets, US8K and ESC50. EdgeL3, a 95% sparsified version of L3-Net, provides a useful reference model for approximating L3 audio embedding for transfer learning.
 
-EdgeL3 is an open-source Python library for downloading the sparsified L3 models and computing deep audio embeddings from such models. For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [3]
+EdgeL3 is an open-source Python library for downloading the sparsified L3 models and computing deep audio embeddings from such models. The audio embedding models provided here are after sparsification and fine-tuning of L3 audio network. For additional implementation details, please refer to EdgeL3 [1]. For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [2]
 
 # References
 

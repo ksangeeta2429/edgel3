@@ -13,6 +13,7 @@ except ImportError:
 module_dir = 'edgel3'
 retrain_type = ['ft', 'kd']
 sparsity = ['53.5', '63.5', '72.3', '73.5', '81.0', '87.0', '90.5', '95.45']
+# Check automatic versioning with travis
 #model_version_str = 'v0_0_1'
 weight_files = ['edgel3_{}_audio_sparsity_{}.h5'.format(*tup)
                 for tup in product(retrain_type, sparsity)]

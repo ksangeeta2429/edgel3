@@ -13,7 +13,7 @@ except ImportError:
 module_dir = 'edgel3'
 retrain_type = ['ft', 'kd']
 sparsity = ['53.5', '63.5', '72.3', '73.5', '81.0', '87.0', '90.5', '95.45']
-model_version_str = 'v0_0_1'
+#model_version_str = 'v0_0_1'
 weight_files = ['edgel3_{}_audio_{}.h5'.format(*tup)
                 for tup in product(retrain_type, sparsity)]
 base_url = 'https://github.com/ksangeeta2429/edgel3/raw/models/'
@@ -27,7 +27,7 @@ else:
         weight_path = os.path.join(module_dir, weight_file)
         if not os.path.isfile(weight_path):
             weight_fname = os.path.splitext(weight_file)[0]
-            compressed_file = '{}-{}.h5.gz'.format(weight_fname, model_version_str)
+            compressed_file = '{}.h5.gz'.format(weight_fname)
             compressed_path = os.path.join(module_dir, compressed_file)
             if not os.path.isfile(compressed_file):
                 print('Downloading weight file {} ...'.format(compressed_file))

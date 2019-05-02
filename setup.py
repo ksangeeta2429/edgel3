@@ -84,7 +84,7 @@ setup(
         'resampy>=0.2.1,<0.3.0',
         'h5py>=2.7.0,<3.0.0',
     ],
-    extras_require=[
+    extras_require={
         'tests': []
     },
     package_data={

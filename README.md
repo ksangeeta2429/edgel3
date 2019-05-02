@@ -10,13 +10,13 @@ For non-sparse models and embedding, please refer to [OpenL3](https://github.com
 
 # References
 
-Please cite the following papers when using EpenL3 in your work:
+Please cite the following papers when using EdgeL3 in your work:
 
-[1] EdgeL3: Compressing L3-Net for Mote-Scale Urban Noise Monitoring
+[1] EdgeL3: Compressing L3-Net for Mote-Scale Urban Noise Monitoring <br/>
 Sangeeta Kumari, Dhrubojyoti Roy, Mark Cartwright, Juan Pablo Bello, and Anish Arora. </br>
-Parallel AI and Systems for the Edge (PAISE), 2019.
+Parallel AI and Systems for the Edge (PAISE), Rio de Janeiro, Brazil, May 2019.
 
-[2] Look, Listen and Learn More: Design Choices for Deep Audio Embeddings
+[2] Look, Listen and Learn More: Design Choices for Deep Audio Embeddings <br/>
 Jason Cramer, Ho-Hsiang Wu, Justin Salamon, and Juan Pablo Bello.<br/>
 IEEE Int. Conf. on Acoustics, Speech and Signal Processing (ICASSP), pages 3852–3856, Brighton, UK, May 2019.
 

@@ -4,7 +4,9 @@ Look, Listen, and Learn (L3) [3],  a  recently  proposed  state-of-the-art  tran
 
 In EdgeL3 [1], we comprehensively explored the feasibility of compressing the L3-Net for mote-scale inference. We used pruning, ablation, and knowledge distillation techniques to show that the originally proposed L3-Net architecture is substantially overparameterized, not  only for AVC but for the target task of sound classification as evaluated on two popular downstream datasets, US8K and ESC50. EdgeL3, a 95% sparsified version of L3-Net, provides a useful reference model for approximating L3 audio embedding for transfer learning.
 
-EdgeL3 is an open-source Python library for downloading the sparsified L3 models and computing deep audio embeddings from such models. The audio embedding models provided here are after sparsification and fine-tuning of L3 audio network. For additional implementation details, please refer to EdgeL3 [1]. For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [2]
+EdgeL3 is an open-source Python library for downloading the sparsified L3 models and computing deep audio embeddings from such models. The audio embedding models provided here are after sparsification and fine-tuning of L3 audio network. For additional implementation details, please refer to EdgeL3 [1]. The code for the model and training implementation can be found in  [https://github.com/ksangeeta2429/l3embedding/tree/dcompression](https://github.com/ksangeeta2429/l3embedding/tree/dcompression)
+
+For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [2]
 
 # References
 

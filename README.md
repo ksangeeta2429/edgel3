@@ -1,5 +1,8 @@
 # edgel3
 
+
+[![PyPI](https://img.shields.io/badge/python-2.7%2C%203.5%2C%203.6-blue.svg)](https://pypi.python.org/pypi/edgel3)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
 [![Build Status](https://travis-ci.com/ksangeeta2429/edgel3.svg?branch=master)](https://travis-ci.com/ksangeeta2429/edgel3)
 [![Coverage Status](https://coveralls.io/repos/github/ksangeeta2429/edgel3/badge.svg)](https://coveralls.io/github/ksangeeta2429/edgel3)
 

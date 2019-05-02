@@ -216,6 +216,8 @@ def test_get_embedding():
     pytest.raises(EdgeL3Error, get_embedding, audio, sr, retrain_type=1, \
                   sparsity=95.45, center=False, hop_size=0.1, verbose=1)
 
+    pytest.raises(EdgeL3Error, get_embedding, np.ones((10,10,10)), sr,\
+                  retrain_type='ft', sparsity=95.45, center=True, hop_size=0.1, verbose=1)
 
 def test_get_output_path():
     test_filepath = '/path/to/the/test/file/audio.wav'

@@ -38,7 +38,7 @@ def get_file_list(input_list):
 
     return file_list
 
-def run(inputs, output_dir=None, suffix=None, embedding_layer =8, sparsity=95.45,
+def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
         center=True, hop_size=0.1, verbose=False):
     """
     Computes and saves L3 embedding for given inputs.
@@ -52,8 +52,9 @@ def run(inputs, output_dir=None, suffix=None, embedding_layer =8, sparsity=95.45
     suffix : str or None
         String to be appended to the output filename, i.e. <base filename>_<suffix>.npy.
         If None, then no suffix will be added, i.e. <base filename>.npy.
-    embedding_layer : int 5, 6, 7 or 8
-        The convolution layer from which embedding is to be extracted
+    retrain_type : str
+        Type of retraining after sparsification of the L3 audio. Finetuned model is returned for "ft"
+        and "kd" gives knowledge distilled sparse audio. 
     sparsity : float
         The desired sparsity to be achieved for the audio model of L3. Sparsity of 95.45 corresponds to the EdgeL3 model. 
     center : boolean
@@ -78,7 +79,7 @@ def run(inputs, output_dir=None, suffix=None, embedding_layer =8, sparsity=95.45
         sys.exit(-1)
 
     # Load model
-    model = load_embedding_model(sparsity)
+    model = load_embedding_model(retrain_type, sparsity)
 
     # Process all files in the arguments
     for filepath in file_list:
@@ -112,8 +113,12 @@ def parse_args(args):
                         help='String to append to the output filenames.'
                              'If not provided, no suffix is added.')
 
+    parser.add_argument('--retrain-type', '-retrain', type=str, default='ft',
+                        choices=['ft', 'kd'],
+                        help='The type of retraining after L3 audio is sparsified')
+
     parser.add_argument('--model-sparsity', '-sp', type=positive_float, default=95.45,
-                        choices=[53.5, 63.5, 73.5, 87.0, 95.45],
+                        choices=[53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, 95.45],
                         help='Overall model sparsity desired in L3')
 
     parser.add_argument('--no-centering', '-n', action='store_true', default=False,
@@ -139,6 +144,7 @@ def main():
     run(args.inputs,
         output_dir=args.output_dir,
         suffix=args.suffix,
+        retrain_type=args.retrain_type,
         sparsity=args.model_sparsity,
         center=not args.no_centering,
         hop_size=args.hop_size,

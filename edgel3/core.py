@@ -33,7 +33,7 @@ def _pad_audio(audio, frame_len, hop_len):
 
     return audio
 
-def get_embedding(audio, sr, model=None, sparsity=95.45,
+def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45,
                   center=True, hop_size=0.1, verbose=1):
     """
     Computes and returns L3 embedding for given audio data
@@ -47,6 +47,11 @@ def get_embedding(audio, sr, model=None, sparsity=95.45,
         Loaded model object. If a model is provided, then `sparsity` will be ignored.
         If None is provided, the model will be loaded using
         the provided `sparsity` value.
+    retrain_type: 'ft' or 'kd'
+        Type of retraining the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method
+        and 'kd' is for knowledge distillation
+    sparsity: 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, or 95.45 (EdgeL3)
+        The desired sparsity of audio model
     center : boolean
         If True, pads beginning of signal so timestamps correspond
         to center of window.
@@ -73,7 +78,13 @@ def get_embedding(audio, sr, model=None, sparsity=95.45,
         raise EdgeL3Error('Invalid model provided. Must be of type keras.model.Models'
                           ' but got {}'.format(str(type(model))))
 
+    if retrain_type not in ('ft', 'kd'):
+        raise EdgeL3Error('Invalid re-training type {}'.format(retrain_type))
+
     if not isinstance(sparsity, Real) or sparsity <= 0:
+        raise EdgeL3Error('Invalid sparsity value {}'.format(sparsity))
+
+    if sparsity not in (53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, 95.45):
         raise EdgeL3Error('Invalid sparsity value {}'.format(sparsity))
 
     if not isinstance(hop_size, Real) or hop_size <= 0:
@@ -98,7 +109,7 @@ def get_embedding(audio, sr, model=None, sparsity=95.45,
 
     # Get embedding model
     if model is None:
-        model = load_embedding_model(sparsity)
+        model = load_embedding_model(retrain_type, sparsity)
 
     audio_len = audio.size
     frame_len = TARGET_SR

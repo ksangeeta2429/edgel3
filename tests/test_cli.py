@@ -83,6 +83,7 @@ def test_parse_args():
     assert args.inputs == [CHIRP_44K_PATH]
     assert args.output_dir is None
     assert args.suffix is None
+    assert args.retrain_type == 'ft'
     assert args.model_sparsity == 95.45
     assert args.no_centering is False
     assert args.hop_size == 0.1
@@ -90,12 +91,13 @@ def test_parse_args():
 
     # test when setting all values
     args = [CHIRP_44K_PATH, '-o', '/output/dir', '--suffix', 'suffix',
-            '--model-sparsity', '53.5', '--no-centering', '--hop-size', '0.5',
+            '--retrain-type', 'kd', '--model-sparsity', '53.5', '--no-centering', '--hop-size', '0.5',
             '--quiet']
     args = parse_args(args)
     assert args.inputs == [CHIRP_44K_PATH]
     assert args.output_dir == '/output/dir'
     assert args.suffix == 'suffix'
+    assert args.retrain_type == 'kd'
     assert args.model_sparsity == 53.5
     assert args.no_centering is True
     assert args.hop_size == 0.5

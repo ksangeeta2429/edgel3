@@ -13,13 +13,16 @@ with warnings.catch_warnings():
     import keras.regularizers as regularizers
 
 
-def load_embedding_model(sparsity):
+def load_embedding_model(retrain_type, sparsity):
     """
     Returns a model with the given characteristics. Loads the model
     if the model has not been loaded yet.
     Parameters
     ----------
-    sparsity: 53.5, 63.5, 73.5, 87.0, or 95.45 (EdgeL3) 
+    retrain_type: 'ft' or 'kd'
+        Type of retraining the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method 
+        and 'kd' is for knowledge distillation 
+    sparsity: 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, or 95.45 (EdgeL3) 
         The desired sparsity of audio model
     Returns
     -------
@@ -32,7 +35,7 @@ def load_embedding_model(sparsity):
         warnings.simplefilter("ignore")
         m = MODELS['sparsified']()
 
-    m.load_weights(load_embedding_model_path(sparsity))
+    m.load_weights(load_embedding_model_path(retrain_type, sparsity))
 
     # Pooling for final output embedding size
     pool_size = (32, 24)
@@ -41,13 +44,16 @@ def load_embedding_model(sparsity):
     m = Model(inputs=m.input, outputs=y_a)
     return m
 
-def load_embedding_model_path(sparsity):
+def load_embedding_model_path(retrain_type, sparsity):
     """
     Returns the local path to the model weights file for the model
     with the given sparsity
     Parameters
     ----------
-    sparsity : 53.5, 63.5, 73.5, 87.0, or 95.45
+    retrain_type: 'ft' or 'kd'
+        Type of retraining the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method 
+        and 'kd' is for knowledge distillation 
+    sparsity : 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, or 95.45
         Desired sparsity of the audio model.
     Returns
     -------
@@ -55,8 +61,9 @@ def load_embedding_model_path(sparsity):
         Path to given model object
     """
 
-    return os.path.join('/scratch/sk7898/l3pruning/embedding/fixed/finetune/audio_model',
-                        'edgel3_audio_sparsity_{}.h5'.format(sparsity))
+    intr_path = '/scratch/sk7898/l3pruning/embedding/fixed/'+retrain_type+'/audio_model'
+    return os.path.join(intr_path,
+                        'edgel3_{}_audio_sparsity_{}.h5'.format(retrain_type, sparsity))
 
 
 def _construct_sparsified_audio_network():

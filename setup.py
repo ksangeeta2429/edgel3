@@ -42,7 +42,7 @@ else:
             os.remove(compressed_path)
             print('Removing compressed file')
 
-#version = imp.load_source('edgel3.version', os.path.join('edgel3', 'version.py'))
+version = imp.load_source('edgel3.version', os.path.join('edgel3', 'version.py'))
 
 with open('README.md') as file:
     long_description = file.read()

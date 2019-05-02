@@ -61,8 +61,7 @@ def load_embedding_model_path(retrain_type, sparsity):
         Path to given model object
     """
 
-    intr_path = '/scratch/sk7898/l3pruning/embedding/fixed/'+retrain_type+'/audio_model'
-    return os.path.join(intr_path,
+    return os.path.join(os.path.dirname(__file__),
                         'edgel3_{}_audio_sparsity_{}.h5'.format(retrain_type, sparsity))
 
 

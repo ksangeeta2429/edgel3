@@ -59,7 +59,7 @@ To install the latest version of EdgeL3 from source:
         cd edgel3
         pip install -e .
 
-# Using OpenL3
+# Using EdgeL3
 
 To help you get started with EdgeL3 please see the [tutorial](http://edgel3.readthedocs.io/en/latest/tutorial.html).
 

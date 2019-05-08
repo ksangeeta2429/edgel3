@@ -14,7 +14,7 @@ In EdgeL3 [1], we comprehensively explored the feasibility of compressing the L3
 EdgeL3 is an open-source Python library for downloading the sparsified L3 models and computing deep audio embeddings from such models. The audio embedding models provided here are after sparsification and fine-tuning of L3 audio network. For additional implementation details, please refer to EdgeL3 [1]. The code for the model and training implementation can be found in  [https://github.com/ksangeeta2429/l3embedding/tree/dcompression](https://github.com/ksangeeta2429/l3embedding/tree/dcompression)
 
 Download the original L3 model used by EdgeL3 as baseline [here](https://github.com/ksangeeta2429/l3embedding/raw/dcompression/models/cnn_l3_melspec2_recent/model_best_valid_accuracy.h5)
-For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [2]
+. For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [2]
 
 # Installing OpenL3
 

@@ -13,8 +13,56 @@ In EdgeL3 [1], we comprehensively explored the feasibility of compressing the L3
 
 EdgeL3 is an open-source Python library for downloading the sparsified L3 models and computing deep audio embeddings from such models. The audio embedding models provided here are after sparsification and fine-tuning of L3 audio network. For additional implementation details, please refer to EdgeL3 [1]. The code for the model and training implementation can be found in  [https://github.com/ksangeeta2429/l3embedding/tree/dcompression](https://github.com/ksangeeta2429/l3embedding/tree/dcompression)
 
-Download the original L3 model used by EdgeL3 as baseline [here] (https://github.com/ksangeeta2429/l3embedding/raw/dcompression/models/cnn_l3_melspec2_recent/model_best_valid_accuracy.h5)
+Download the original L3 model used by EdgeL3 as baseline [here](https://github.com/ksangeeta2429/l3embedding/raw/dcompression/models/cnn_l3_melspec2_recent/model_best_valid_accuracy.h5)
 For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [2]
+
+# Installing OpenL3
+
+Dependencies
+------------
+#### Tensorflow
+Install Tensorflow (CPU-only/GPU) variant that best fits your usecase.
+
+On most platforms, either of the following commands should properly install Tensorflow:
+
+    pip install tensorflow # CPU-only version
+    pip install tensorflow-gpu # GPU version
+
+For more detailed information, please consult the
+[Tensorflow installation documentation](https://www.tensorflow.org/install/).
+
+#### libsndfile
+EdgeL3 depends on the `pysoundfile` module to load audio files, which depends on the non-Python library ``libsndfile``. On Windows and macOS, these will be installed via ``pip`` and you can therefore skip this step.
+However, on Linux this must be installed manually via your platform's package manager.
+For Debian-based distributions (such as Ubuntu), this can be done by simply running
+
+    apt-get install libsndfile1
+
+For more detailed information, please consult the
+[`pysoundfile` installation documentation](https://pysoundfile.readthedocs.io/en/0.9.0/#installation>).
+
+
+Installing EdgeL3
+-----------------
+The simplest way to install EdgeL3 is by using ``pip``, which will also install the additional required dependencies
+if needed. To install EdgeL3 using ``pip``, simply run
+
+    pip install edgel3
+
+To install the latest version of EdgeL3 from source:
+
+1. Clone or pull the lastest version:
+
+        git clone https://github.com/ksangeeta2429/edgel3.git
+
+2. Install using pip to handle python dependencies:
+        cd edgel3
+        pip install -e .
+
+# Using OpenL3
+
+To help you get started with EdgeL3 please see the [tutorial](http://edgel3.readthedocs.io/en/latest/tutorial.html).
+
 
 # References
 

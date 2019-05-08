@@ -7,7 +7,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/ksangeeta2429/edgel3/badge.svg)](https://coveralls.io/github/ksangeeta2429/edgel3)
 [![Documentation Status](https://readthedocs.org/projects/edgel3/badge/?version=latest)](https://edgel3.readthedocs.io/en/latest/?badge=latest)
 
-Look, Listen, and Learn (L3) [3],  a  recently  proposed  state-of-the-art  transfer learning technique, mitigates the first challenge by training self-supervised deep audio embedding through binary Audio-Visual Correspondence,  and  the  resulting  embedding  can  beused to train a variety of downstream audio classification tasks. However, with close to 4.7 million parameters, the multi-layerL3-Net  CNN is still prohibitively expensive to be run on small edge devices, such as 'motes' that use a single microcontroller and limited memory to achieve long-lived self-powered operation. 
+Look, Listen, and Learn (L3) [3],  a  recently  proposed  state-of-the-art  transfer learning technique, mitigates the first challenge by training self-supervised deep audio embedding through binary Audio-Visual Correspondence,  and  the  resulting  embedding  can  beused to train a variety of downstream audio classification tasks. However, with close to 4.7 million parameters, the multi-layer L3-Net  CNN is still prohibitively expensive to be run on small edge devices, such as 'motes' that use a single microcontroller and limited memory to achieve long-lived self-powered operation. 
 
 In EdgeL3 [1], we comprehensively explored the feasibility of compressing the L3-Net for mote-scale inference. We used pruning, ablation, and knowledge distillation techniques to show that the originally proposed L3-Net architecture is substantially overparameterized, not  only for AVC but for the target task of sound classification as evaluated on two popular downstream datasets, US8K and ESC50. EdgeL3, a 95% sparsified version of L3-Net, provides a useful reference model for approximating L3 audio embedding for transfer learning.
 
@@ -16,7 +16,7 @@ EdgeL3 is an open-source Python library for downloading the sparsified L3 models
 Download the original L3 model used by EdgeL3 as baseline [here](https://github.com/ksangeeta2429/l3embedding/raw/dcompression/models/cnn_l3_melspec2_recent/model_best_valid_accuracy.h5)
 . For non-sparse models and embedding, please refer to [OpenL3](https://github.com/marl/openl3) [2]
 
-# Installing OpenL3
+# Installing EdgeL3
 
 Dependencies
 ------------

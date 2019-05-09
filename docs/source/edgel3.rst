@@ -1,8 +1,9 @@
-edgel3 package
+EdgeL3 package
 ==============
+.. module:: edgel3
 
-Submodules
-----------
+OASubmodules
+------------
 
 edgel3.cli module
 -----------------
@@ -28,10 +29,3 @@ edgel3.models module
     :undoc-members:
     :show-inheritance:
 
-Module contents
----------------
-
-.. automodule:: edgel3
-    :members:
-    :undoc-members:
-    :show-inheritance:

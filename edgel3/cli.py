@@ -9,7 +9,6 @@ from collections import Iterable
 from six import string_types
 
 def positive_float(value):
-
     """An argparse type method for accepting only positive floats"""
 
     try:
@@ -23,7 +22,6 @@ def positive_float(value):
 
 
 def get_file_list(input_list):
-
     """Get list of files from the list of inputs"""
 
     if not isinstance(input_list, Iterable) or isinstance(input_list, string_types):
@@ -44,9 +42,9 @@ def get_file_list(input_list):
 
 def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
         center=True, hop_size=0.1, verbose=False):
-
     """
     Computes and saves L3 embedding for given inputs.
+
     Parameters
     ----------
     inputs : list of str, or str
@@ -58,9 +56,9 @@ def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
         String to be appended to the output filename, i.e. <base filename>_<suffix>.npy.
         If None, then no suffix will be added, i.e. <base filename>.npy.
     retrain_type : str
-        Type of retraining after sparsification of the L3 audio. Finetuned model is returned for "ft"
-        and "kd" gives knowledge distilled sparse audio. 
-    sparsity : float
+        Type of retraining after sparsification of the L3 audio. Finetuned model is returned for ``ft``
+        and ``kd`` gives knowledge distilled sparse audio. 
+    sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
         The desired sparsity to be achieved for the audio model of L3. Sparsity of 95.45 corresponds to the EdgeL3 model. 
     center : boolean
         If True, pads beginning of signal so timestamps correspond
@@ -69,10 +67,11 @@ def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
         Hop size in seconds.
     quiet : boolean
         If True, suppress all non-error output to stdout
+
     Returns
     -------
-    """
 
+    """
     if isinstance(inputs, string_types):
         file_list = [inputs]
     elif isinstance(inputs, Iterable):

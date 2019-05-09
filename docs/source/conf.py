@@ -50,7 +50,7 @@ sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # The full version, including alpha/beta/rc tags
 import imp
-openl3_version = imp.load_source('edgel3.version', '../edgel3/version.py')
+openl3_version = imp.load_source('edgel3.version', '../../edgel3/version.py')
 version = edgel3_version.short_version
 release = edgel3_version.version
 

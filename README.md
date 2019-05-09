@@ -61,7 +61,7 @@ To install the latest version of EdgeL3 from source:
 
 # Using EdgeL3
 
-To help you get started with EdgeL3 please see the [tutorial](http://edgel3.readthedocs.io/en/latest/tutorial.html).
+To help you get started with EdgeL3 please see the [tutorial](https://edgel3.readthedocs.io/en/latest/tutorial.html) and [module usage](https://edgel3.readthedocs.io/en/latest/edgel3.html).
 
 
 # References

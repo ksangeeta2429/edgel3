@@ -21,7 +21,7 @@ API Reference
 .. toctree::
    :maxdepth: 1
 
-   api
+   modules
 
 
 Citation for EdgeL3

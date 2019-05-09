@@ -1,9 +1,7 @@
-EdgeL3 package
+EdgeL3 Modules
 ==============
-.. module:: edgel3
 
-Submodules
-----------
+.. module:: edgel3
 
 edgel3.cli module
 -----------------

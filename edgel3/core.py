@@ -34,7 +34,7 @@ def _pad_audio(audio, frame_len, hop_len):
     return audio
 
 def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, center=True, hop_size=0.1, verbose=1):    
-    """Computes and returns L3 embedding for given audio data.
+    """Computes and returns L3 embedding for an audio data from pruned audio model.
 
     Parameters
     ----------
@@ -47,8 +47,8 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
         If None is provided, the model will be loaded using
         the provided `sparsity` value.
     retrain_type : {'ft', 'kd'}
-        Type of retraining the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method
-        and 'kd' is for knowledge distillation.
+        Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method
+        and 'kd' returns knowledge distilled model.
     sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
         The desired sparsity of audio model.
     center : boolean

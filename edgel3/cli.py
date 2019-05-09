@@ -123,7 +123,7 @@ def parse_args(args):
                         help='The type of retraining after L3 audio is sparsified')
 
     parser.add_argument('--model-sparsity', '-sp', type=positive_float, default=95.45,
-                        choices=[53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, 95.45],
+                        choices=[95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5],
                         help='Overall model sparsity desired in L3')
 
     parser.add_argument('--no-centering', '-n', action='store_true', default=False,

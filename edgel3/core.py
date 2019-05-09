@@ -14,7 +14,7 @@ from edgel3.edgel3_warnings import EdgeL3Warning
 TARGET_SR = 48000
 
 
-def _center_audio(audio, frame_len):
+def _center_audio(audio, frame_len):    
     """Center audio so that first sample will occur in the middle of the first frame"""
     return np.pad(audio, (int(frame_len / 2.0), 0), mode='constant', constant_values=0)
 
@@ -33,10 +33,9 @@ def _pad_audio(audio, frame_len, hop_len):
 
     return audio
 
-def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45,
-                  center=True, hop_size=0.1, verbose=1):
-    """
-    Computes and returns L3 embedding for given audio data
+def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, center=True, hop_size=0.1, verbose=1):    
+    """Computes and returns L3 embedding for given audio data.
+
     Parameters
     ----------
     audio : np.ndarray [shape=(N,) or (N,C)]
@@ -47,11 +46,11 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45,
         Loaded model object. If a model is provided, then `sparsity` will be ignored.
         If None is provided, the model will be loaded using
         the provided `sparsity` value.
-    retrain_type: 'ft' or 'kd'
+    retrain_type : {'ft', 'kd'}
         Type of retraining the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method
-        and 'kd' is for knowledge distillation
-    sparsity: 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, or 95.45 (EdgeL3)
-        The desired sparsity of audio model
+        and 'kd' is for knowledge distillation.
+    sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
+        The desired sparsity of audio model.
     center : boolean
         If True, pads beginning of signal so timestamps correspond
         to center of window.
@@ -59,14 +58,15 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45,
         Hop size in seconds.
     verbose : 0 or 1
         Keras verbosity.
+
     Returns
     -------
-        embedding : np.ndarray [shape=(T, D)]
-            Array of embeddings for each window.
-        timestamps : np.ndarray [shape=(T,)]
-            Array of timestamps corresponding to each embedding in the output.
-    """
+    embedding : np.ndarray [shape=(T, D)]
+        Array of embeddings for each window.
+    timestamps : np.ndarray [shape=(T,)]
+        Array of timestamps corresponding to each embedding in the output.
 
+    """
     if audio.size == 0:
         raise EdgeL3Error('Got empty audio')
 
@@ -141,10 +141,9 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45,
     return embedding, ts
 
 
-def process_file(filepath, output_dir=None, suffix=None, model=None,
-                 sparsity=95.45, center=True, hop_size=0.1, verbose=True):
-    """
-    Computes and saves L3 embedding for given audio file
+def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95.45, center=True, hop_size=0.1, verbose=True):    
+    """Computes and saves L3 embedding for given audio file
+
     Parameters
     ----------
     filepath : str
@@ -157,7 +156,9 @@ def process_file(filepath, output_dir=None, suffix=None, model=None,
         If None, then no suffix will be added, i.e. <base filename>.npz.
     model : keras.models.Model or None
         Loaded model object. If a model is provided, then `sparsity` will be ignored.
-        If None is provided, the model will be loaded using the given `sparsity'.
+        If None is provided, the model will be loaded using the given `sparsity`.
+    sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
+        The desired sparsity of audio model.
     center : boolean
         If True, pads beginning of signal so timestamps correspond
         to center of window.
@@ -165,8 +166,10 @@ def process_file(filepath, output_dir=None, suffix=None, model=None,
         Hop size in seconds.
     verbose : 0 or 1
         Keras verbosity.
+
     Returns
     -------
+
     """
     if not os.path.exists(filepath):
         raise EdgeL3Error('File "{}" could not be found.'.format(filepath))
@@ -188,21 +191,25 @@ def process_file(filepath, output_dir=None, suffix=None, model=None,
     assert os.path.exists(output_path)
 
 
-def get_output_path(filepath, suffix, output_dir=None):
+def get_output_path(filepath, suffix, output_dir=None):    
     """
+
     Parameters
     ----------
     filepath : str
-        Path to audio file to be processed
+        Path to audio file to be processed.
     suffix : str
         String to append to filename (including extension)
     output_dir : str or None
         Path to directory where file will be saved. If None, will use directory of given filepath.
+    
     Returns
     -------
     output_path : str
-        Path to output file
+        Path to output file.
+
     """
+
     base_filename = os.path.splitext(os.path.basename(filepath))[0]
     if not output_dir:
         output_dir = os.path.dirname(filepath)

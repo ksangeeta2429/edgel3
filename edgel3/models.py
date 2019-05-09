@@ -17,6 +17,7 @@ def load_embedding_model(retrain_type, sparsity):
     """
     Returns a model with the given characteristics. Loads the model
     if the model has not been loaded yet.
+
     Parameters
     ----------
     retrain_type: 'ft' or 'kd'
@@ -24,12 +25,13 @@ def load_embedding_model(retrain_type, sparsity):
         and 'kd' is for knowledge distillation 
     sparsity: 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, or 95.45 (EdgeL3) 
         The desired sparsity of audio model
+
     Returns
     -------
     model : keras.models.Model
         Model object.
-    """
 
+    """
     # Construct embedding model and load model weights
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
@@ -48,6 +50,7 @@ def load_embedding_model_path(retrain_type, sparsity):
     """
     Returns the local path to the model weights file for the model
     with the given sparsity
+
     Parameters
     ----------
     retrain_type: 'ft' or 'kd'
@@ -55,10 +58,12 @@ def load_embedding_model_path(retrain_type, sparsity):
         and 'kd' is for knowledge distillation 
     sparsity : 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, or 95.45
         Desired sparsity of the audio model.
+
     Returns
     -------
     output_path : str
         Path to given model object
+
     """
 
     return os.path.join(os.path.dirname(__file__),
@@ -68,10 +73,12 @@ def load_embedding_model_path(retrain_type, sparsity):
 def _construct_sparsified_audio_network():
     """
     Returns an uninitialized model object for a sparsified network with a Melspectrogram input (with 256 frequency bins).
+
     Returns
     -------
     model : keras.models.Model
         Model object.
+
     """
 
     weight_decay = 1e-5

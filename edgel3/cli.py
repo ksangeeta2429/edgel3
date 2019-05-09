@@ -9,7 +9,9 @@ from collections import Iterable
 from six import string_types
 
 def positive_float(value):
+
     """An argparse type method for accepting only positive floats"""
+
     try:
         fvalue = float(value)
     except (ValueError, TypeError) as e:
@@ -21,7 +23,9 @@ def positive_float(value):
 
 
 def get_file_list(input_list):
+
     """Get list of files from the list of inputs"""
+
     if not isinstance(input_list, Iterable) or isinstance(input_list, string_types):
         raise ArgumentTypeError('input_list must be iterable (and not string)')
     file_list = []
@@ -40,6 +44,7 @@ def get_file_list(input_list):
 
 def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
         center=True, hop_size=0.1, verbose=False):
+
     """
     Computes and saves L3 embedding for given inputs.
     Parameters
@@ -67,6 +72,7 @@ def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
     Returns
     -------
     """
+
     if isinstance(inputs, string_types):
         file_list = [inputs]
     elif isinstance(inputs, Iterable):

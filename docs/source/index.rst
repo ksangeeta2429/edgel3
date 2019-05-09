@@ -1,5 +1,9 @@
-Welcome to EdgeL3's documentation!
-==================================
+.. |br| raw:: html
+
+   <br />
+
+EdgeL3's documentation!
+=======================
 
 .. toctree::
    :maxdepth: 2
@@ -12,17 +16,16 @@ applications. The audio models provided in EdgeL3 are a result of sparsification
 please refer to EdgeL3 [1]
 
 
-
 API Reference
 =============
 .. toctree::
-    :maxdepth: 1
+   :maxdepth: 1
 
-    api
+   api
 
 
-Acknowledging EdgeL3
-====================
+Citation for EdgeL3
+===================
 
 Please cite the following papers when using EdgeL3 in your work:
 

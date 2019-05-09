@@ -8,8 +8,8 @@ Submodules
 edgel3.cli module
 -----------------
 
-.. automodule:: edgel3.cli.run
-    :members:
+.. automodule:: edgel3.cli
+    :members: run
     :undoc-members:
     :show-inheritance:
 

@@ -2,13 +2,13 @@ EdgeL3 package
 ==============
 .. module:: edgel3
 
-OASubmodules
-------------
+Submodules
+----------
 
 edgel3.cli module
 -----------------
 
-.. automodule:: edgel3.cli
+.. automodule:: edgel3.cli.run
     :members:
     :undoc-members:
     :show-inheritance:

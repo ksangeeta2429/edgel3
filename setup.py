@@ -14,7 +14,6 @@ module_dir = 'edgel3'
 retrain_type = ['ft', 'kd']
 sparsity = ['53.5', '63.5', '72.3', '73.5', '81.0', '87.0', '90.5', '95.45']
 
-model_version_str = 'v0_1_0'
 weight_files = ['edgel3_{}_audio_sparsity_{}.h5'.format(*tup) for tup in product(retrain_type, sparsity)]
 base_url = 'https://github.com/ksangeeta2429/edgel3/raw/models/'
 

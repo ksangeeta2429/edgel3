@@ -84,10 +84,16 @@ setup(
         'scipy>=0.19.1',
         'kapre>=0.1.4',
         'PySoundFile>=0.9.0.post1',
-        'resampy>=0.2.1',
+        'resampy>=0.2.1,<0.3.0',
         'h5py>=2.7.0,<3.0.0',
     ],
     extras_require={
+        'docs': [
+                'sphinx==1.2.3',  # autodoc was broken in 1.3.1
+                'sphinxcontrib-napoleon',
+                'sphinx_rtd_theme',
+                'numpydoc',
+            ],
         'tests': []
     },
     package_data={

@@ -90,12 +90,6 @@ setup(
         'h5py>=2.7.0,<3.0.0',
     ],
     extras_require={
-        'docs': [
-                'sphinx==1.2.3',  
-                'sphinxcontrib-napoleon',
-                'sphinx_rtd_theme',
-                'numpydoc',
-                ],
         'tests': []
     },
     package_data={

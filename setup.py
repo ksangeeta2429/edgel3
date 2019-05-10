@@ -13,8 +13,8 @@ except ImportError:
 module_dir = 'edgel3'
 retrain_type = ['ft', 'kd']
 sparsity = ['53.5', '63.5', '72.3', '73.5', '81.0', '87.0', '90.5', '95.45']
-# Check automatic versioning with travis
-#model_version_str = 'v0_0_1'
+
+model_version_str = 'v0_1_0'
 weight_files = ['edgel3_{}_audio_sparsity_{}.h5'.format(*tup)
                 for tup in product(retrain_type, sparsity)]
 base_url = 'https://github.com/ksangeeta2429/edgel3/raw/models/'
@@ -50,7 +50,8 @@ with open('README.md') as file:
 
 setup(
     name='edgel3',
-    description='Deep audio and image embeddings, based on Look, Listen, and Learn approach',
+    version=version.version,
+    description='Audio embeddings based on pruned Look, Listen, and Learn (L3) models for the Edge',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/ksangeeta2429/edgel3',
@@ -88,6 +89,12 @@ setup(
         'h5py>=2.7.0,<3.0.0',
     ],
     extras_require={
+        'docs': [
+                'sphinx==1.2.3',  
+                'sphinxcontrib-napoleon',
+                'sphinx_rtd_theme',
+                'numpydoc',
+                ],
         'tests': []
     },
     package_data={

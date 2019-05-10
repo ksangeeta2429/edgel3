@@ -41,14 +41,14 @@ else:
             os.remove(compressed_path)
             print('Removing compressed file')
 
-version = imp.load_source('edgel3.version', os.path.join('edgel3', 'version.py'))
+#version = imp.load_source('edgel3.version', os.path.join('edgel3', 'version.py'))
 
 with open('README.md') as file:
     long_description = file.read()
 
 setup(
     name='edgel3',
-    version=version.version,
+    #version=version.version,
     description='Audio embeddings based on pruned Look, Listen, and Learn (L3) models for the Edge',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -84,16 +84,10 @@ setup(
         'scipy>=0.19.1',
         'kapre>=0.1.4',
         'PySoundFile>=0.9.0.post1',
-        'resampy>=0.2.1,<0.3.0',
+        'resampy>=0.2.1',
         'h5py>=2.7.0,<3.0.0',
     ],
     extras_require={
-        'docs': [
-                'sphinx==1.2.3',  # autodoc was broken in 1.3.1
-                'sphinxcontrib-napoleon',
-                'sphinx_rtd_theme',
-                'numpydoc',
-            ],
         'tests': []
     },
     package_data={

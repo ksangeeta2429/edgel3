@@ -1,3 +1,4 @@
+import edgel3
 import pytest
 import tempfile
 import numpy as np

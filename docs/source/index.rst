@@ -15,6 +15,7 @@ EdgeL3 is an open-source Python library for downloading pruned sparsified L3 mod
 applications. The audio models provided in EdgeL3 are a result of sparsification and fine-tuning of original Look, Listen and Learn (L3) [3] audio network. For details about pruning and re-training implementation, please see:
 
 `EdgeL3: Compressing L3-Net for Mote-Scale Urban Noise Monitoring <https://github.com/ksangeeta2429/Publications/raw/master/EdgeL3_Compressing_L3_Net_for_Mote_Scale.pdf>`_
+|br|
 Sangeeta Kumari, Dhrubojyoti Roy, Mark Cartwright, Juan Pablo Bello, and Anish Arora. |br|
 Parallel AI and Systems for the Edge (PAISE), Rio de Janeiro, Brazil, May 2019.
 

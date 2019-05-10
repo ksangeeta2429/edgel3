@@ -15,11 +15,11 @@ before_install:
 
 install:
 - pip install tensorflow pytest
-- pip install -e .[tests]
+#- pip install -e .[tests]
 
 script:
 - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
-- py.test -v
+- python -m pytest
 - kill %1
 
 after_success:

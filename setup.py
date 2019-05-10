@@ -78,6 +78,7 @@ setup(
     project_urls={
         'Source': 'https://github.com/ksangeeta2429/edgel3',
         'Tracker': 'https://github.com/ksangeeta2429/edgel3/issues',
+        'Documentation': 'https://readthedocs.org/projects/edgel3/'
     },
     install_requires=[
         'keras>=2.0.9',

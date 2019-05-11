@@ -14,7 +14,7 @@ before_install:
 - pip install pytest-cov
 
 install:
-- pip install pytest tensorflow
+- pip install tensorflow pytest
 - pip install -e .[tests]
 
 script:

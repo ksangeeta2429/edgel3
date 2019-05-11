@@ -1,11 +1,11 @@
 import pytest
 import os
-from edgel3.cli import positive_float, get_file_list, parse_args, run, main
-from argparse import ArgumentTypeError
-from edgel3.edgel3_exceptions import EdgeL3Error
 import tempfile
 import numpy as np
 import shutil
+from edgel3.cli import positive_float, get_file_list, parse_args, run, main
+from argparse import ArgumentTypeError
+from edgel3.edgel3_exceptions import EdgeL3Error
 
 try:
     # python 3.4+ should use builtin unittest.mock not mock package

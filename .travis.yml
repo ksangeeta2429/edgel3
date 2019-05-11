@@ -18,7 +18,7 @@ install:
 - pip install -e .[tests]
 
 script:
-- while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
+- while sleep 10m; do echo "=====[ $SECONDS seconds still running ]====="; done &
 - py.test
 - kill %1
 

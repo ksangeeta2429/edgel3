@@ -1,6 +1,7 @@
 from __future__ import print_function
 import os
 import sys
+import sklearn.decomposition
 from edgel3.edgel3_exceptions import EdgeL3Error
 from edgel3.core import process_file
 from edgel3.models import load_embedding_model

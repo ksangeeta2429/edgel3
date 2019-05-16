@@ -5,7 +5,7 @@ EdgeL3 tutorial
 
 Introduction
 ------------
-Welcome to the EdgeL3 tutorial! We will show you how you can compute audio embeddings for resource constrained devices.
+With EdgeL3, you can compute audio embeddings that can be useful for resource constrained devices.
 Note that only audio formats supported by `pysoundfile` are supported (e.g. WAV, OGG, FLAC).
 
 .. _using_library:
@@ -13,7 +13,8 @@ Note that only audio formats supported by `pysoundfile` are supported (e.g. WAV,
 Using the Library
 -----------------
 
-You can compute audio embeddings out of the EdgeL3 model, 95.45% pruned and fine-tuned L3 model by:
+In EdgeL3 paper, we found 95.45% sparse model to perform equally well for our applications so we refer to this as the EdgeL3 model.
+You can compute audio embeddings out of the EdgeL3 model (95.45% pruned and fine-tuned) by:
 
 .. code-block:: python
     
@@ -35,7 +36,7 @@ To get embedding out of different sparse models, you can specify ``sparsity`` su
     audio, sr = sf.read('/path/to/file.wav')
     emb, ts = edgel3.get_embedding(audio, sr, sparsity=53.5)
 
-Valid sparsity values are: 53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (EdgeL3 model).
+Valid sparsity values are: 53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (EdgeL3 model). The sparsity refers to the overall sparsity of the model.
 We had used two training schemes to train the pruned audio models of L3. The above is example of fine-tuning.
 If you want to use the pruned models re-trained by knowledge distillation method, you can specify 
 ``retrain_type`` as ``kd`` which stands for knowledge distillation.

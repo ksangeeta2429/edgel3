@@ -21,6 +21,7 @@ import sphinx_rtd_theme
 from sphinx.ext.autodoc import between
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('../../edgel3'))
 sys.path.insert(0, os.path.abspath('../../edgel3/edgel3'))
 
 # -- Project information -----------------------------------------------------

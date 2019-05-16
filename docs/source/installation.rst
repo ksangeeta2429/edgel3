@@ -7,7 +7,7 @@ Dependencies
 -----------------------
 Tensorflow
 __________
-Install Tensorflow (CPU-only/GPU) variant that best fits your usecase.
+Install Tensorflow (CPU-only/GPU) variant that best fits your use case.
 
 On most platforms, either of the following commands should properly install Tensorflow:
 

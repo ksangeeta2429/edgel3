@@ -28,11 +28,14 @@ You can compute audio embeddings out of the EdgeL3 model (95.45% pruned and fine
 The second object ``ts`` is a length-T numpy array containing timestamps corresponding to each embedding (to the center of the analysis window, by default).
 
 By default, EdgeL3 extracts embedding with a model that:
-* Is 95.45% sparse
+
+* Is 95.45% sparse|br|
 * Is re-trained from 'fine-tuning' (FT) mechanism
 
+
 These defaults can be changed via the following optional parameters:
-* sparsity:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)
+
+* sparsity:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)|br|
 * retrain_type: "kd", "ft" (default)
 
 For example, to get embedding out of 81.0% sparse audio model that has been trained with knowledge-distillation method, you can use:

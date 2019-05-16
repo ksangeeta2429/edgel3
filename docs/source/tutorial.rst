@@ -29,13 +29,13 @@ The second object ``ts`` is a length-T numpy array containing timestamps corresp
 
 By default, EdgeL3 extracts embedding with a model that:
 
-* Is 95.45% sparse|br|
+* Is 95.45% sparse
 * Is re-trained from 'fine-tuning' (FT) mechanism
 
 
 These defaults can be changed via the following optional parameters:
 
-* sparsity:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)|br|
+* sparsity:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)
 * retrain_type: "kd", "ft" (default)
 
 For example, to get embedding out of 81.0% sparse audio model that has been trained with knowledge-distillation method, you can use:

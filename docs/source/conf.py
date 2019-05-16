@@ -21,8 +21,8 @@ import sphinx_rtd_theme
 from sphinx.ext.autodoc import between
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0, os.path.abspath('../../edgel3'))
-sys.path.insert(0, os.path.abspath('../../edgel3/edgel3'))
+sys.path.insert(0, os.path.abspath('../../'))
+#sys.path.insert(0, os.path.abspath('../../edgel3/edgel3'))
 
 # -- Project information -----------------------------------------------------
 
@@ -76,10 +76,6 @@ extensions = [
 # Napoleon settings
 napoleon_include_private_with_doc = True
 napoleon_include_special_with_doc = True
-
-autodoc_default_options = {
-    'special-members': '__init__'
-}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -89,10 +89,11 @@ setup(
     ],
     extras_require={
         'docs': [
-                'sphinx==1.2.3',  # autodoc was broken in 1.3.1
-                'sphinxcontrib-napoleon',
-                'sphinx_rtd_theme',
-                'numpydoc',
+            'sphinx==1.2.3',  # autodoc was broken in 1.3.1
+            'scikit-learn==0.19.0',
+            'sphinxcontrib-napoleon',
+            'sphinx_rtd_theme',
+            'numpydoc',
             ],
         'tests': []
     },

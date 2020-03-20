@@ -43,7 +43,7 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
         1D numpy array of audio data.
     sr : int
         Sampling rate, if not 48kHz will audio will be resampled.
-    model : keras.models.Model or None
+    model : tf.keras.Model or None
         Loaded model object. If a model is provided, then `sparsity` will be ignored.
         If None is provided, the model will be loaded using
         the provided `sparsity` value.
@@ -155,7 +155,7 @@ def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95
     suffix : str or None
         String to be appended to the output filename, i.e. <base filename>_<suffix>.npz.
         If None, then no suffix will be added, i.e. <base filename>.npz.
-    model : keras.models.Model or None
+    model : tf.keras.Model or None
         Loaded model object. If a model is provided, then `sparsity` will be ignored.
         If None is provided, the model will be loaded using the given `sparsity`.
     sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}

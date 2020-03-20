@@ -1,4 +1,5 @@
 import os
+import functools
 import warnings
 import sklearn.decomposition
 
@@ -88,78 +89,44 @@ def _construct_sparsified_audio_network():
     n_hop = 242
     asr = 48000
     audio_window_dur = 1
+    filt_size = (3, 3)
+    activation = 'relu'
+    embedding_size = 512
+
+    blocks = [
+        {'n': 2, 'n_filter': 64, 'pool_size': (2, 2)},
+        {'n': 2, 'n_filter': 128, 'pool_size': (2, 2)},
+        {'n': 2, 'n_filter': 256, 'pool_size': (2, 2)},
+        {'n': 1, 'n_filter': embedding_size},
+    ]
 
     # INPUT
     x_a = Input(shape=(1, asr * audio_window_dur), dtype='float32')
 
     # MELSPECTROGRAM PREPROCESSING
     y_a = Melspectrogram(n_dft=n_dft, n_hop=n_hop, n_mels=n_mels,
-                      sr=asr, power_melgram=1.0, htk=True, # n_win=n_win,
-                      return_decibel_melgram=True, padding='same')(x_a)
+                         sr=asr, power_melgram=1.0, htk=True, # n_win=n_win,
+                         return_decibel_melgram=True, padding='same')(x_a)
     y_a = BatchNormalization()(y_a)
 
-    # CONV BLOCK 1
-    n_filter_a_1 = 64
-    filt_size_a_1 = (3, 3)
-    pool_size_a_1 = (2, 2)
-    y_a = Conv2D(n_filter_a_1, filt_size_a_1, padding='same',
-                 kernel_initializer='he_normal',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-    y_a = BatchNormalization()(y_a)
-    y_a = Activation('relu')(y_a)
-    y_a = Conv2D(n_filter_a_1, filt_size_a_1, padding='same',
-                 kernel_initializer='he_normal',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-    y_a = BatchNormalization()(y_a)
-    y_a = Activation('relu')(y_a)
-    y_a = MaxPooling2D(pool_size=pool_size_a_1, strides=2)(y_a)
+    conv = lambda n_filter, filt_size, **kw: (
+        Conv2D(n_filter, filt_size, padding='same',
+               kernel_initializer='he_normal',
+               kernel_regularizer=regularizers.l2(weight_decay), **kw))
 
-    # CONV BLOCK 2
-    n_filter_a_2 = 128
-    filt_size_a_2 = (3, 3)
-    pool_size_a_2 = (2, 2)
-    y_a = Conv2D(n_filter_a_2, filt_size_a_2, padding='same',
-                 kernel_initializer='he_normal',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-    y_a = BatchNormalization()(y_a)
-    y_a = Activation('relu')(y_a)
-    y_a = Conv2D(n_filter_a_2, filt_size_a_2, padding='same',
-                 kernel_initializer='he_normal',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-    y_a = BatchNormalization()(y_a)
-    y_a = Activation('relu')(y_a)
-    y_a = MaxPooling2D(pool_size=pool_size_a_2, strides=2)(y_a)
+    for p in blocks:
+        # convolution blocks
+        for _ in range(p.get('n', 1)):
+            y_a = conv(p['n_filter'], p.get('filt_size', filt_size))(y_a)
+            y_a = BatchNormalization()(y_a)
+            y_a = Activation(activation)(y_a)
+        # pooling
+        if 'pool_size' in p:
+            y_a = MaxPooling2D(pool_size=p['pool_size'], strides=2)(y_a)
 
-    # CONV BLOCK 3
-    n_filter_a_3 = 256
-    filt_size_a_3 = (3, 3)
-    pool_size_a_3 = (2, 2)
-    y_a = Conv2D(n_filter_a_3, filt_size_a_3, padding='same',
-                 kernel_initializer='he_normal',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-    y_a = BatchNormalization()(y_a)
-    y_a = Activation('relu')(y_a)
-    y_a = Conv2D(n_filter_a_3, filt_size_a_3, padding='same',
-                 kernel_initializer='he_normal',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-    y_a = BatchNormalization()(y_a)
-    y_a = Activation('relu')(y_a)
-    y_a = MaxPooling2D(pool_size=pool_size_a_3, strides=2)(y_a)
-
-    # CONV BLOCK 4
-    n_filter_a_4 = 512
-    filt_size_a_4 = (3, 3)
-    pool_size_a_4 = (32, 24)
-    y_a = Conv2D(n_filter_a_4, filt_size_a_4, padding='same',
-                 kernel_initializer='he_normal',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-    y_a = BatchNormalization()(y_a)
-    y_a = Activation('relu')(y_a)
-    y_a = Conv2D(n_filter_a_4, filt_size_a_4,
-                 kernel_initializer='he_normal',
-                 name='audio_embedding_layer', padding='same',
-                 kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-
+    # embedding layer
+    y_a = conv(embedding_size, filt_size,
+               name='audio_embedding_layer')(y_a)
     m = Model(inputs=x_a, outputs=y_a)
 
     return m

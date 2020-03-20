@@ -6,12 +6,12 @@ with warnings.catch_warnings():
     # Suppress TF and Keras warnings when importing
     warnings.simplefilter("ignore")
     from kapre.time_frequency import Spectrogram, Melspectrogram
-    from keras.layers import (
-        Input, Conv2D, BatchNormalization, MaxPooling2D,
-        Flatten, Activation, Lambda
-    )
-    from keras.models import Model
-    import keras.regularizers as regularizers
+    import tensorflow as tf
+    from tensorflow.keras import Model, Input
+    from tensorflow.keras.layers import (
+        Conv2D, BatchNormalization, MaxPooling2D,
+        Flatten, Activation)
+    import tensorflow.keras.regularizers as regularizers
 
 
 def load_embedding_model(retrain_type, sparsity):
@@ -22,14 +22,14 @@ def load_embedding_model(retrain_type, sparsity):
     Parameters
     ----------
     retrain_type: 'ft' or 'kd'
-        Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method 
-        and 'kd' returns knowledge distilled model. 
+        Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method
+        and 'kd' returns knowledge distilled model.
     sparsity: {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
         The desired sparsity of audio model.
 
     Returns
     -------
-    model : keras.models.Model
+    model : tensorflow.keras.Model
         Model object.
 
     """
@@ -55,8 +55,8 @@ def load_embedding_model_path(retrain_type, sparsity):
     Parameters
     ----------
     retrain_type: 'ft' or 'kd'
-        Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method 
-        and 'kd' returns knowledge distilled model. 
+        Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method
+        and 'kd' returns knowledge distilled model.
     sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
         Desired sparsity of the audio model.
 
@@ -77,7 +77,7 @@ def _construct_sparsified_audio_network():
 
     Returns
     -------
-    model : keras.models.Model
+    model : tensorflow.keras.Model
         Model object.
 
     """
@@ -168,4 +168,3 @@ def _construct_sparsified_audio_network():
 MODELS = {
     'sparsified': _construct_sparsified_audio_network
 }
-

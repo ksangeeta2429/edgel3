@@ -6,7 +6,7 @@ import soundfile as sf
 import numpy as np
 from numbers import Real
 import warnings
-import keras
+import tensorflow as tf
 from edgel3.models import load_embedding_model
 from edgel3.edgel3_exceptions import EdgeL3Error
 from edgel3.edgel3_warnings import EdgeL3Warning
@@ -15,7 +15,7 @@ from edgel3.edgel3_warnings import EdgeL3Warning
 TARGET_SR = 48000
 
 
-def _center_audio(audio, frame_len):    
+def _center_audio(audio, frame_len):
     """Center audio so that first sample will occur in the middle of the first frame"""
     return np.pad(audio, (int(frame_len / 2.0), 0), mode='constant', constant_values=0)
 
@@ -34,7 +34,7 @@ def _pad_audio(audio, frame_len, hop_len):
 
     return audio
 
-def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, center=True, hop_size=0.1, verbose=1):    
+def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, center=True, hop_size=0.1, verbose=1):
     """Computes and returns L3 embedding for an audio data from pruned audio model.
 
     Parameters
@@ -75,8 +75,8 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
     if np.all(audio == 0):
         warnings.warn('Provided audio is all zeros', EdgeL3Warning)
 
-    if model is not None and not isinstance(model, keras.models.Model):
-        raise EdgeL3Error('Invalid model provided. Must be of type keras.model.Models'
+    if model is not None and not isinstance(model, tf.keras.Model):
+        raise EdgeL3Error('Invalid model provided. Must be of type tf.keras.Models'
                           ' but got {}'.format(str(type(model))))
 
     if retrain_type not in ('ft', 'kd'):
@@ -142,7 +142,7 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
     return embedding, ts
 
 
-def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95.45, center=True, hop_size=0.1, verbose=True):    
+def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95.45, center=True, hop_size=0.1, verbose=True):
     """Computes and saves L3 embedding for given audio file
 
     Parameters
@@ -192,7 +192,7 @@ def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95
     assert os.path.exists(output_path)
 
 
-def get_output_path(filepath, suffix, output_dir=None):    
+def get_output_path(filepath, suffix, output_dir=None):
     """
 
     Parameters
@@ -203,7 +203,7 @@ def get_output_path(filepath, suffix, output_dir=None):
         String to append to filename (including extension)
     output_dir : str or None
         Path to directory where file will be saved. If None, will use directory of given filepath.
-    
+
     Returns
     -------
     output_path : str

@@ -43,6 +43,23 @@ def test_positive_float():
     for i in invalid:
         pytest.raises(ArgumentTypeError, positive_float, i)
 
+def test_positive_int():
+
+    # test that returned value is float
+    f = positive_int(5.0)
+    assert f == 5
+    assert type(f) is int
+
+    # test it works for valid strings
+    f = positive_int('1.3')
+    assert f == 1
+    assert type(f) is int
+
+    # make sure error raised for all invalid values:
+    invalid = [-5, -1.0, None, 'hello']
+    for i in invalid:
+        pytest.raises(ArgumentTypeError, positive_int, i)
+
 
 def test_get_file_list():
 
@@ -83,25 +100,54 @@ def test_parse_args():
     assert args.inputs == [CHIRP_44K_PATH]
     assert args.output_dir is None
     assert args.suffix is None
+    assert args.model_type == 'sparse'
+    assert args.emb_dim == 128
     assert args.retrain_type == 'ft'
     assert args.model_sparsity == 95.45
     assert args.no_centering is False
     assert args.hop_size == 0.1
     assert args.quiet is False
 
-    # test when setting all values
-    args = [CHIRP_44K_PATH, '-o', '/output/dir', '--suffix', 'suffix',
-            '--retrain-type', 'kd', '--model-sparsity', '53.5', '--no-centering', '--hop-size', '0.5',
-            '--quiet']
+    # test when setting 'sparse' values
+    args = [CHIRP_44K_PATH, '-o', '/output/dir', 
+            '--suffix', 'suffix',
+            '--model-type', 'sparse',
+            '--retrain-type', 'kd', 
+            '--model-sparsity', '53.5', 
+            '--no-centering', 
+            '--hop-size', '0.5',
+            '--quiet'
+        ]
     args = parse_args(args)
     assert args.inputs == [CHIRP_44K_PATH]
     assert args.output_dir == '/output/dir'
     assert args.suffix == 'suffix'
+    assert args.model_type == 'sparse'
+    assert args.emb_dim == 128
     assert args.retrain_type == 'kd'
     assert args.model_sparsity == 53.5
     assert args.no_centering is True
     assert args.hop_size == 0.5
     assert args.quiet is True
+
+    # test when setting 'sea' values
+    args = [CHIRP_44K_PATH, '-o', '/output/dir', 
+            '--suffix', 'suffix',
+            '--model-type', 'sea',
+            '--emb-dim', '256', 
+            '--hop-size', '0.5'
+        ]
+    args = parse_args(args)
+    assert args.inputs == [CHIRP_44K_PATH]
+    assert args.output_dir == '/output/dir'
+    assert args.suffix == 'suffix'
+    assert args.model_type == 'sea'
+    assert args.emb_dim == 256
+    assert args.retrain_type == 'ft'
+    assert args.model_sparsity == 95.45
+    assert args.no_centering is False
+    assert args.hop_size == 0.5
+    assert args.quiet is False
 
 def test_run(capsys):
 

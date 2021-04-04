@@ -15,6 +15,7 @@ TEST_AUDIO_DIR = os.path.join(TEST_DIR, 'data', 'audio')
 # Test audio file paths
 CHIRP_MONO_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_mono.wav')
 CHIRP_STEREO_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_stereo.wav')
+CHIRP_8K_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_8k.wav')
 CHIRP_44K_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_44k.wav')
 CHIRP_1S_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_1s.wav')
 EMPTY_PATH = os.path.join(TEST_AUDIO_DIR, 'empty.wav')
@@ -25,39 +26,39 @@ def test_get_embedding():
     hop_size = 0.1
     tol = 1e-5
 
-    # Make sure all finetuned pruned models work fine
+    # Make sure all fine-tuned sparse L3 models work fine
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='ft', sparsity=53.5, center=True, hop_size=hop_size, verbose=1)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=53.5, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
 
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='ft', sparsity=63.5, center=True, hop_size=hop_size, verbose=1)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=63.5, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
 
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='ft', sparsity=72.3, center=True, hop_size=hop_size, verbose=1)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=72.3, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
 
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='ft', sparsity=73.5, center=True, hop_size=hop_size, verbose=1)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=73.5, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
 
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='ft', sparsity=81.0, center=True, hop_size=hop_size, verbose=1)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=81.0, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
 
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='ft', sparsity=87.0, center=True, hop_size=hop_size, verbose=1)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=87.0, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
@@ -75,7 +76,7 @@ def test_get_embedding():
     assert not np.any(np.isnan(emb1_ft))
 
 
-    # Make sure all knowledge distilled pruned models work fine
+    # Make sure all knowledge distilled sparse L3 models work fine
     audio, sr = sf.read(CHIRP_MONO_PATH)
     emb1, ts1 = get_embedding(audio, sr, retrain_type='kd', sparsity=53.5, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
@@ -124,6 +125,31 @@ def test_get_embedding():
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
 
+
+    # Make sure all UST specialized embedding approximated L3 models work fine
+    audio, sr = sf.read(CHIRP_8K_PATH)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sea', emb_dim=512, center=True, hop_size=hop_size, verbose=1)
+    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
+    #assert emb1.shape[1] == 512
+    assert not np.any(np.isnan(emb1))
+
+    audio, sr = sf.read(CHIRP_8K_PATH)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sea', emb_dim=256, center=True, hop_size=hop_size, verbose=1)
+    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
+    #assert emb1.shape[1] == 512
+    assert not np.any(np.isnan(emb1))
+
+    audio, sr = sf.read(CHIRP_MONO_PATH)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sea', emb_dim=128, center=True, hop_size=hop_size, verbose=1)
+    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
+    #assert emb1.shape[1] == 512
+    assert not np.any(np.isnan(emb1))
+
+    audio, sr = sf.read(CHIRP_MONO_PATH)
+    emb1, ts1 = get_embedding(audio, sr, model_type='sea', emb_dim=64, center=True, hop_size=hop_size, verbose=1)
+    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
+    #assert emb1.shape[1] == 512
+    assert not np.any(np.isnan(emb1))
 
     # Make sure we can load a model and pass it in
     model = load_embedding_model('ft', 95.45)
@@ -188,6 +214,12 @@ def test_get_embedding():
     # Make sure invalid arguments don't work
     pytest.raises(EdgeL3Error, get_embedding, audio, sr, model='invalid', \
                   retrain_type='ft', sparsity=95.45, center=False, hop_size=0.1, verbose=1)
+
+    pytest.raises(EdgeL3Error, get_embedding, audio, sr, model_type='invalid', \
+                  retrain_type='ft', sparsity=95.45, center=False, hop_size=0.1, verbose=1)
+
+    pytest.raises(EdgeL3Error, get_embedding, audio, sr, model_type='sea', \
+                  emb_dim=50, center=False, hop_size=0.1, verbose=1)
 
     pytest.raises(EdgeL3Error, get_embedding, audio, sr, retrain_type='invalid', \
                   sparsity=95.45, center=False, hop_size=0.1, verbose=1)

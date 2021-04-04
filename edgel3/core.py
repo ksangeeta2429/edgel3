@@ -11,9 +11,8 @@ from edgel3.models import load_embedding_model
 from edgel3.edgel3_exceptions import EdgeL3Error
 from edgel3.edgel3_warnings import EdgeL3Warning
 
-
-TARGET_SR = 48000
-
+L3_TARGET_SR = 48000
+SEA_TARGET_SR = 8000
 
 def _center_audio(audio, frame_len):    
     """Center audio so that first sample will occur in the middle of the first frame"""
@@ -34,7 +33,7 @@ def _pad_audio(audio, frame_len, hop_len):
 
     return audio
 
-def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, center=True, hop_size=0.1, verbose=1):    
+def get_embedding(audio, sr, model=None, model_type='sparse', emb_dim=128, retrain_type='ft', sparsity=95.45, center=True, hop_size=0.1, verbose=1):    
     """Computes and returns L3 embedding for an audio data from pruned audio model.
 
     Parameters
@@ -42,14 +41,18 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
     audio : np.ndarray [shape=(N,) or (N,C)]
         1D numpy array of audio data.
     sr : int
-        Sampling rate, if not 48kHz will audio will be resampled.
+        Sampling rate, if not 48kHz or 8kHz will audio will be resampled for `sparse` and `sea` models respectively.
     model : keras.models.Model or None
         Loaded model object. If a model is provided, then `sparsity` will be ignored.
-        If None is provided, the model will be loaded using
-        the provided `sparsity` value.
+        If None is provided, the desired version of smaller L3 will be loaded, determined by `model_type`. model will be loaded using
+    model_type : {'sea', 'sparse'}
+        Type of smaller version of L3 model.
+        If `sea` is selected, the audio model is a UST specialized (SEA) model. `sparse` gives a sparse L3 model with the desired 'sparsity'.
+    emb_dim : {512, 256, 128, 64}
+        Desired embedding dimension of the UST specialized embedding approximated (SEA) models. Not used for `sparse` models.
     retrain_type : {'ft', 'kd'}
-        Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method
-        and 'kd' returns knowledge distilled model.
+        Type of retraining for the sparsified weights of L3 audio model. `ft` chooses the fine-tuning method
+        and `kd` returns knowledge distilled model.
     sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
         The desired sparsity of audio model.
     center : boolean
@@ -79,6 +82,12 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
         raise EdgeL3Error('Invalid model provided. Must be of type keras.model.Models'
                           ' but got {}'.format(str(type(model))))
 
+    if model_type not in ('sea', 'sparse'):
+        raise EdgeL3Error('Invalid EdgeL3 model type {}'.format(model_type))
+
+    if emb_dim not in (512, 256, 128, 64):
+        raise EdgeL3Error('Invalid embedding dimension value {}'.format(emb_dim))
+
     if retrain_type not in ('ft', 'kd'):
         raise EdgeL3Error('Invalid re-training type {}'.format(retrain_type))
 
@@ -97,6 +106,8 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
     if center not in (True, False):
         raise EdgeL3Error('Invalid center value {}'.format(center))
 
+    TARGET_SR = L3_TARGET_SR if model_type == 'sparse' else SEA_TARGET_SR
+
     # Check audio array dimension
     if audio.ndim > 2:
         raise EdgeL3Error('Audio array can only be be 1D or 2D')
@@ -110,7 +121,12 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
 
     # Get embedding model
     if model is None:
-        model = load_embedding_model(retrain_type, sparsity)
+        model = load_embedding_model(
+                    model_type, 
+                    emb_dim=emb_dim, 
+                    retrain_type=retrain_type,
+                    sparsity=sarsity
+                )
 
     audio_len = audio.size
     frame_len = TARGET_SR
@@ -142,7 +158,7 @@ def get_embedding(audio, sr, model=None, retrain_type='ft', sparsity=95.45, cent
     return embedding, ts
 
 
-def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95.45, center=True, hop_size=0.1, verbose=True):    
+def process_file(filepath, output_dir=None, suffix=None, model=None, model_type='sparse', emb_dim=128, sparsity=95.45, center=True, hop_size=0.1, verbose=True):    
     """Computes and saves L3 embedding for given audio file
 
     Parameters
@@ -156,8 +172,13 @@ def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95
         String to be appended to the output filename, i.e. <base filename>_<suffix>.npz.
         If None, then no suffix will be added, i.e. <base filename>.npz.
     model : keras.models.Model or None
-        Loaded model object. If a model is provided, then `sparsity` will be ignored.
-        If None is provided, the model will be loaded using the given `sparsity`.
+        Loaded model object. If a model is provided, then `model_type` will be ignored.
+        If None is provided, UST specialized L3 or sparse L3 is loaded according to the ``model_type``.
+    model_type : {'sea', 'sparse'}
+        Type of smaller version of L3 model.
+        If `sea` is selected, the audio model is a UST specialized (SEA) model. `sparse` gives a sparse L3 model with the desired 'sparsity'.
+    emb_dim : {512, 256, 128, 64}
+        Desired embedding dimension of the UST specialized embedding approximated (SEA) models. Not used for `sparse` models.
     sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
         The desired sparsity of audio model.
     center : boolean
@@ -185,8 +206,17 @@ def process_file(filepath, output_dir=None, suffix=None, model=None, sparsity=95
 
     output_path = get_output_path(filepath, suffix + ".npz", output_dir=output_dir)
 
-    embedding, ts = get_embedding(audio, sr, model=model, sparsity=sparsity, center=center,
-                                  hop_size=hop_size, verbose=1 if verbose else 0)
+    embedding, ts = get_embedding(
+                            audio, 
+                            sr, 
+                            model=model, 
+                            model_type=model_type, 
+                            emb_dim=emb_dim, 
+                            sparsity=sparsity, 
+                            center=center,
+                            hop_size=hop_size, 
+                            verbose=1 if verbose else 0
+                        )
 
     np.savez(output_path, embedding=embedding, timestamps=ts)
     assert os.path.exists(output_path)

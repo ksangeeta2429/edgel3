@@ -21,6 +21,17 @@ def positive_float(value):
         raise ArgumentTypeError('Expected a positive float')
     return fvalue
 
+def positive_int(value):
+    """An argparse type method for accepting only positive integers"""
+
+    try:
+        ivalue = int(value)
+    except (ValueError, TypeError) as e:
+        raise ArgumentTypeError('Expected a positive int, error message: '
+                                '{}'.format(e))
+    if ivalue <= 0:
+        raise ArgumentTypeError('Expected a positive int')
+    return ivalue
 
 def get_file_list(input_list):
     """Get list of files from the list of inputs"""
@@ -41,8 +52,18 @@ def get_file_list(input_list):
 
     return file_list
 
-def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
-        center=True, hop_size=0.1, verbose=False):
+def run(
+        inputs, 
+        output_dir=None, 
+        suffix=None, 
+        model_type='sparse', 
+        emb_dim=128, 
+        retrain_type='ft', 
+        sparsity=95.45,
+        center=True, 
+        hop_size=0.1, 
+        verbose=False
+    ):
     """
     Computes and saves L3 embedding for given inputs.
 
@@ -56,6 +77,11 @@ def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
     suffix : str or None
         String to be appended to the output filename, i.e. <base filename>_<suffix>.npy.
         If None, then no suffix will be added, i.e. <base filename>.npy.
+    model_type : {sea, sparse}
+        Type of smaller version of L3 model.
+        If ``sea`` is selected, the audio model is a UST specialized (SEA) model. ``sparse`` gives a sparse L3 model with the desired ``sparsity``.
+    emb_dim : {512, 256, 128, 64}
+        Desired embedding dimension of the UST specialized embedding approximated (SEA) models.
     retrain_type : str
         Type of retraining after sparsification of the L3 audio. Finetuned model is returned for ``ft``
         and ``kd`` gives knowledge distilled sparse audio. 
@@ -85,7 +111,7 @@ def run(inputs, output_dir=None, suffix=None, retrain_type="ft", sparsity=95.45,
         sys.exit(-1)
 
     # Load model
-    model = load_embedding_model(retrain_type, sparsity)
+    model = load_embedding_model(model_type, emb_dim, retrain_type, sparsity)
 
     # Process all files in the arguments
     for filepath in file_list:
@@ -119,6 +145,15 @@ def parse_args(args):
                         help='String to append to the output filenames.'
                              'If not provided, no suffix is added.')
 
+    parser.add_argument('--model-type', '-mtype', type=str, default='sparse',
+                        choices=['sea', 'sparse'],
+                        help='Type of edge L3 model')
+    
+    parser.add_argument('--emb-dim', '-e', type=positive_int, default=128,
+                        choices=[512, 256, 128, 64],
+                        help='Embedding dimension of the UST SEA model.'
+                             'Ignored for `sparse` models.)
+
     parser.add_argument('--retrain-type', '-retrain', type=str, default='ft',
                         choices=['ft', 'kd'],
                         help='The type of retraining after L3 audio is sparsified')
@@ -142,16 +177,20 @@ def parse_args(args):
 
 def main():
     """
-    Extracts audio embeddings from pruned Look, Listen, and Learn models (Arandjelovic and Zisserman 2017).
+    Extracts audio embeddings from smaller versions of Look, Listen, and Learn models (Arandjelovic and Zisserman 2017).
     """
     args = parse_args(sys.argv[1:])
 
     print(args)
-    run(args.inputs,
+    run(
+        args.inputs,
         output_dir=args.output_dir,
         suffix=args.suffix,
+        model_type=args.model_type,
+        emb_dim=args.emb_dim,
         retrain_type=args.retrain_type,
         sparsity=args.model_sparsity,
         center=not args.no_centering,
         hop_size=args.hop_size,
-        verbose=not args.quiet)
+        verbose=not args.quiet
+    )

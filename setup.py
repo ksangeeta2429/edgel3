@@ -13,8 +13,13 @@ except ImportError:
 module_dir = 'edgel3'
 retrain_type = ['ft', 'kd']
 sparsity = ['53.5', '63.5', '72.3', '73.5', '81.0', '87.0', '90.5', '95.45']
+emb_dim_for_SEA = [512, 256, 128, 64]
 
-weight_files = ['edgel3_{}_audio_sparsity_{}.h5'.format(*tup) for tup in product(retrain_type, sparsity)]
+# Add SEA student models
+sparse_weight_files = ['edgel3_{}_audio_sparsity_{}.h5'.format(*tup) for tup in product(retrain_type, sparsity)]
+sonyc_weight_files = ['edgel3_sea_ust_audio_emb_{}.h5'.format(emb_dim) for emb_dim in emb_dim_for_SEA]
+weight_files = sparse_weight_files + sonyc_weight_files
+
 base_url = 'https://github.com/ksangeeta2429/edgel3/raw/models/'
 
 if len(sys.argv) > 1 and sys.argv[1] == 'sdist':
@@ -53,8 +58,8 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/ksangeeta2429/edgel3',
-    author='Sangeeta Kumari',
-    author_email='kumari.14@osu.edu',
+    author='Sangeeta Srivastava',
+    author_email='sangeeta.osu@gmail.com',
     packages=find_packages(),
     entry_points={
         'console_scripts': ['edgel3=edgel3.cli:main'],
@@ -66,11 +71,11 @@ setup(
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
         'Topic :: Multimedia :: Sound/Audio :: Analysis',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3', #Removing support for python 2.x
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     keywords='deep audio embeddings machine listening learning tensorflow keras pruning compression',
     project_urls={
@@ -81,7 +86,7 @@ setup(
     install_requires=[
         'numpy>=1.13.0',
         'scipy>=0.19.1',
-        'kapre>=0.1.4',
+        'kapre==0.1.4', #pin kapre to 0.1.4
         'keras>=2.0.9',
         'PySoundFile>=0.9.0.post1',
         'resampy>=0.2.1,<0.3.0',

@@ -5,7 +5,7 @@ Tutorial
 
 Introduction
 ------------
-With EdgeL3, you can compute audio embeddings from sparse models that can be useful for resource constrained devices.
+With edgel3, you can compute audio embeddings from smaller versions of L3 models that can be useful for resource constrained devices.
 The supported audio formats are those supported by the `pysoundfile` library, which is used for loading the audio (e.g. WAV, OGG, FLAC).
 
 .. _using_library:
@@ -13,8 +13,11 @@ The supported audio formats are those supported by the `pysoundfile` library, wh
 Using the Library
 -----------------
 
-In EdgeL3 paper, we found 95.45% sparse model to perform equally well for our applications so we refer to this as the EdgeL3 model.
-You can compute audio embeddings out of the EdgeL3 model (95.45% pruned and fine-tuned) by:
+edgel3 supports two types of ``model_type``:
+* ``sparse``: sparse L3 audio
+* ``sea``: SONYC-UST specialized L3 audio 
+
+The deafult audio model is 95.45% pruned and fine-tuned sparse L3 audio. You can compute audio embeddings out of default model by:
 
 .. code-block:: python
     
@@ -27,14 +30,7 @@ You can compute audio embeddings out of the EdgeL3 model (95.45% pruned and fine
 ``get_embedding`` returns two objects. The first object ``emb`` is a T-by-D numpy array, where T is the number of analysis frames used to compute embeddings, and D is the dimensionality of the embedding.
 The second object ``ts`` is a length-T numpy array containing timestamps corresponding to each embedding (to the center of the analysis window, by default).
 
-By default, EdgeL3 extracts embedding with a model that:
-
-* Is 95.45% sparse
-* Is re-trained from 'fine-tuning' (FT) mechanism
-
-
-These defaults can be changed via the following optional parameters:
-
+These defaults for ``sparse`` models be changed via the following optional parameters:
 * sparsity:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)
 * retrain_type: "kd", "ft" (default)
 
@@ -46,10 +42,21 @@ For example, to get embedding out of 81.0% sparse audio model that has been trai
     import soundfile as sf
 
     audio, sr = sf.read('/path/to/file.wav')
-    emb, ts = edgel3.get_embedding(audio, sr, retrain_type='kd', sparsity=81.0)
+    emb, ts = edgel3.get_embedding(audio, sr, model_type='sparse', retrain_type='kd', sparsity=81.0)
+
+All ``sea`` models have reduced input representation. Moreover, models with embedding dimension < 512 also have reduced architecture. The default embedding dimension for ``sea`` models is 128 and it can be changed via the following optional parameters:
+* emb_dim:  512, 256, 128 (default), 64
+
+.. code-block:: python
+
+    import edgel3
+    import soundfile as sf
+
+    audio, sr = sf.read('/path/to/file.wav')
+    emb, ts = edgel3.get_embedding(audio, sr, model_type='sea', emb_dim=256)
 
 
-By default EdgeL3 will pad the beginning of the input audio signal by 0.5 seconds (half of the window size) so that the
+By default edgel3 will pad the beginning of the input audio signal by 0.5 seconds (half of the window size) so that the
 the center of the first window corresponds to the beginning of the signal ("zero centered"), and the returned timestamps
 correspond to the center of each window. You can disable this centering like this:
 
@@ -77,12 +84,12 @@ processing multiple files with the same model, you can load it manually and pass
 
 .. code-block:: python
     
-    model = edgel3.models.load_embedding_model(retrain_type='ft', sparsity=53.5)
+    model = edgel3.models.load_embedding_model(model_type='sparse', retrain_type='ft', sparsity=53.5)
     emb1, ts1 = edgel3.get_embedding(audio1, sr1, model=model)
     emb2, ts2 = edgel3.get_embedding(audio2, sr2, model=model)
 
 
-Since the model is provided, keyword arguments `ft` and `sparsity` for the function `get_embedding()` will be ignored. 
+Since the model is provided, keyword arguments `model_type` and all parameters associated with `sea` and `sparse` will be ignored. 
 
 
 To compute embeddings for an audio file from a given model and save them to the disk, you can use ``process_file``:
@@ -121,7 +128,7 @@ As with ``get_embedding``, you can load the model manually and pass it to ``proc
     import edgel3
     import numpy as np
 
-    model = edgel3.models.load_embedding_model(retrain_type='ft', sparsity=53.5)
+    model = edgel3.models.load_embedding_model(model_type='sparse', retrain_type='ft', sparsity=53.5)
 
     audio_filepath = '/path/to/file.wav'
     
@@ -178,15 +185,20 @@ You can append a suffix to the output file as follows:
 
 which will create the output file ``/path/to/file_somesuffix.npz``.
 
-To get embedding out of a different sparse model, sparsity and retrain_type arguments can be provided, for example:
+To get embedding out of a `sea` model, model_type and emb_dim can be provided
 
 .. code-block:: shell
 
-    $ edgel3 /path/to/file.wav --model-sparsity 53.5 --retrain-type kd
+    $ edgel3 /path/to/file.wav --model-type sea --emb-dim 256
 
-The default value for --model-sparsity is 95.45 and for --retrain-type is ft.
+To get embedding out of a `sparse` model, sparsity and retrain_type arguments can be provided, for example:
 
-By default, EdgeL3 will pad the beginning of the input audio signal by 0.5 seconds (half of the window size) so that the
+.. code-block:: shell
+
+    $ edgel3 /path/to/file.wav --model-type sparse --model-sparsity 53.5 --retrain-type kd
+
+
+By default, edgel3 will pad the beginning of the input audio signal by 0.5 seconds (half of the window size) so that the
 the center of the first window corresponds to the beginning of the signal, and the timestamps correspond to the center of each window.
 You can disable this centering as follows:
 
@@ -194,7 +206,6 @@ You can disable this centering as follows:
 
     $ edgel3 /path/to/file.wav --no-centering
 
-The hop size used to extract the embedding is 0.1 seconds by default (i.e. an embedding frame rate of 10 Hz).
 In the following example we change the hop size from 0.1 (10 frames per second) to 0.5 (2 frames per second):
 
 .. code-block:: shell
@@ -207,8 +218,14 @@ Finally, you can suppress non-error printouts by running:
 
     $ edgel3 /path/to/file.wav --quiet
 
-A sample of full command may look like:
+A sample of full command for `sparse` model may look like:
 
 .. code-block:: shell
 
-    $ edgel3 /path/to/file.wav --output /different/dir --suffix somesuffix --model-sparsity 53.5 --retrain-type kd --no-centering --hop-size 0.5 --quiet 
+    $ edgel3 /path/to/file.wav --output /different/dir --suffix somesuffix --model-type sparse --model-sparsity 53.5 --retrain-type kd --no-centering --hop-size 0.5 --quiet 
+
+A sample of full command for `sea` model may look like:
+
+.. code-block:: shell
+
+    $ edgel3 /path/to/file.wav --output /different/dir --suffix somesuffix --model-type sea --emb-dim 64 --no-centering --hop-size 0.5 --quiet 

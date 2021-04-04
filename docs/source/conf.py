@@ -27,10 +27,23 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'EdgeL3'
-copyright = '2019, Sangeeta Kumari'
-author = 'Sangeeta Kumari'
+project = 'edgel3'
+copyright = '2019, Sangeeta Srivastava'
+author = 'Sangeeta Srivastava'
 
+if sys.version_info[:2] >= (3, 3):
+    import platform
+    from importlib.machinery import SourceFileLoader
+    def load_source(name, path):
+        if not os.path.exists(path):
+            return {}
+        return vars(SourceFileLoader(name, path).load_module())
+else:
+    import imp
+    def load_source(name, path):
+        if not os.path.exists(path):
+            return {}
+        return vars(imp.load_source(name, path))
 
 # -- Mock dependencies
 if six.PY3:
@@ -52,10 +65,9 @@ MOCK_MODULES = [
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # The full version, including alpha/beta/rc tags
-import imp
-edgel3_version = imp.load_source('edgel3.version', '../../edgel3/version.py')
-version = edgel3_version.short_version
-release = edgel3_version.version
+edgel3_version = load_source('edgel3.version', '../../edgel3/version.py')
+version = edgel3_version['short_version']
+release = edgel3_version['version']
 
 master_doc = 'index'
 

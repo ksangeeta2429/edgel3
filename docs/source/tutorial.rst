@@ -5,7 +5,7 @@ Tutorial
 
 Introduction
 ------------
-With edgel3, you can compute audio embeddings from smaller versions of L3 models that can be useful for resource constrained devices.
+With **edgel3**, you can compute audio embeddings from smaller versions of L3 models that can be useful for resource constrained devices.
 The supported audio formats are those supported by the `pysoundfile` library, which is used for loading the audio (e.g. WAV, OGG, FLAC).
 
 .. _using_library:
@@ -14,7 +14,9 @@ Using the Library
 -----------------
 
 edgel3 supports two types of ``model_type``:
+
 * ``sparse``: sparse L3 audio
+
 * ``sea``: SONYC-UST specialized L3 audio 
 
 The deafult audio model is 95.45% pruned and fine-tuned sparse L3 audio. You can compute audio embeddings out of default model by:
@@ -30,9 +32,11 @@ The deafult audio model is 95.45% pruned and fine-tuned sparse L3 audio. You can
 ``get_embedding`` returns two objects. The first object ``emb`` is a T-by-D numpy array, where T is the number of analysis frames used to compute embeddings, and D is the dimensionality of the embedding.
 The second object ``ts`` is a length-T numpy array containing timestamps corresponding to each embedding (to the center of the analysis window, by default).
 
-These defaults for ``sparse`` models be changed via the following optional parameters:
-* sparsity:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)
-* retrain_type: "kd", "ft" (default)
+These defaults for **sparse** models be changed via the following optional parameters:
+
+* ``sparsity``:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)
+
+* ``retrain_type``: "kd", "ft" (default)
 
 For example, to get embedding out of 81.0% sparse audio model that has been trained with knowledge-distillation method, you can use:
 
@@ -44,8 +48,9 @@ For example, to get embedding out of 81.0% sparse audio model that has been trai
     audio, sr = sf.read('/path/to/file.wav')
     emb, ts = edgel3.get_embedding(audio, sr, model_type='sparse', retrain_type='kd', sparsity=81.0)
 
-All ``sea`` models have reduced input representation. Moreover, models with embedding dimension < 512 also have reduced architecture. The default embedding dimension for ``sea`` models is 128 and it can be changed via the following optional parameters:
-* emb_dim:  512, 256, 128 (default), 64
+All **sea** models have reduced input representation. Moreover, models with embedding dimension < 512 also have reduced architecture. The default embedding dimension for ``sea`` models is 128 and it can be changed with the help of ``emb_dim`` parameter:
+
+* ``emb_dim``:  512, 256, 128 (default), 64
 
 .. code-block:: python
 
@@ -89,7 +94,7 @@ processing multiple files with the same model, you can load it manually and pass
     emb2, ts2 = edgel3.get_embedding(audio2, sr2, model=model)
 
 
-Since the model is provided, keyword arguments `model_type` and all parameters associated with `sea` and `sparse` will be ignored. 
+Since the model is provided, keyword arguments ``model_type`` and all parameters associated with ``sea`` and ``sparse`` will be ignored. 
 
 
 To compute embeddings for an audio file from a given model and save them to the disk, you can use ``process_file``:

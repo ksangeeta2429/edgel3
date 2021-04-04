@@ -96,7 +96,7 @@ setup(
         'numpy>=1.13.0',
         'scipy>=0.19.1',
         'kapre==0.1.4', #pin kapre to 0.1.4
-        'keras>=2.3.0',
+        'keras==2.3.1',
         'PySoundFile>=0.9.0.post1',
         'resampy>=0.2.1,<0.3.0',
         'h5py>=2.7.0,<3.0.0',

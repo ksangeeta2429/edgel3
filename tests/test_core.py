@@ -152,7 +152,7 @@ def test_get_embedding():
     assert not np.any(np.isnan(emb1))
 
     # Make sure we can load a model and pass it in
-    model = load_embedding_model('ft', 95.45)
+    model = load_embedding_model('sparse', 128, 'ft', 95.45)
     emb1load, ts1load = get_embedding(audio, sr, model=model, retrain_type='ft', sparsity=95.45, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(emb1load - emb1_ft) < tol)
     assert np.all(np.abs(ts1load - ts1_ft) < tol)

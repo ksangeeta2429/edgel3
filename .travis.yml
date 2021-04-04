@@ -10,11 +10,12 @@ python:
 
 before_install:
 - pip install python-coveralls
-- pip install pytest-faulthandler
+- pip install "pytest-faulthandler>=1.5.0,<2.0.0"
 - pip install pytest-cov
 
 install:
-- pip install tensorflow pytest
+- pip install tensorflow==2.0.0
+- pip install pytest
 - pip install -e .[tests]
 
 script:

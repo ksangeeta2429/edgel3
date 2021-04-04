@@ -14,6 +14,7 @@ TEST_AUDIO_DIR = os.path.join(TEST_DIR, 'data', 'audio')
 # Test audio file paths
 CHIRP_MONO_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_mono.wav')
 CHIRP_STEREO_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_stereo.wav')
+CHIRP_8K_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_8k.wav')
 CHIRP_44K_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_44k.wav')
 CHIRP_1S_PATH = os.path.join(TEST_AUDIO_DIR, 'chirp_1s.wav')
 EMPTY_PATH = os.path.join(TEST_AUDIO_DIR, 'empty.wav')
@@ -45,7 +46,7 @@ def test_positive_int():
     assert type(f) is int
 
     # test it works for valid strings
-    f = positive_int('1.3')
+    f = positive_int('1')
     assert f == 1
     assert type(f) is int
 
@@ -81,7 +82,7 @@ def test_get_file_list():
 
     # combine list of files and folders
     flist = get_file_list([TEST_AUDIO_DIR, CHIRP_44K_PATH])
-    assert len(flist) == 8
+    assert len(flist) == 9
 
     # nonexistent path
     pytest.raises(EdgeL3Error, get_file_list, ['/fake/path/to/file'])

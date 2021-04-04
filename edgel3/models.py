@@ -210,7 +210,7 @@ def _construct_ust_specialized_audio_network(emb_dim=128, **kwargs):
     y_a = BatchNormalization()(y_a)
 
     # CONV BLOCK 1
-    n_filter_a_1 = 64/reduction_factor[emb_dim][0]
+    n_filter_a_1 = 64//reduction_factor[emb_dim][0]
     filt_size_a_1 = (3, 3)
     pool_size_a_1 = (2, 2)
     y_a = Conv2D(n_filter_a_1, filt_size_a_1, padding='same',
@@ -226,7 +226,7 @@ def _construct_ust_specialized_audio_network(emb_dim=128, **kwargs):
     y_a = MaxPooling2D(pool_size=pool_size_a_1, strides=2)(y_a)
 
     # CONV BLOCK 2
-    n_filter_a_2 = 128/reduction_factor[emb_dim][1]
+    n_filter_a_2 = 128//reduction_factor[emb_dim][1]
     filt_size_a_2 = (3, 3)
     pool_size_a_2 = (2, 2)
     y_a = Conv2D(n_filter_a_2, filt_size_a_2, padding='same',
@@ -269,7 +269,8 @@ def _construct_ust_specialized_audio_network(emb_dim=128, **kwargs):
                  kernel_initializer='he_normal',
                  name='audio_embedding_layer', padding='same',
                  kernel_regularizer=regularizers.l2(weight_decay))(y_a)
-
+    y_a = BatchNormalization()(y_a)
+    y_a = Activation('relu')(y_a)
     pool_size_a_4 = tuple(y_a.get_shape().as_list()[1:3]) #(32, 24)
     y_a = MaxPooling2D(pool_size=pool_size_a_4)(y_a)
     y_a = Flatten()(y_a)

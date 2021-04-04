@@ -7,7 +7,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/ksangeeta2429/edgel3/badge.svg?branch=master)](https://coveralls.io/github/ksangeeta2429/edgel3?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/edgel3/badge/?version=latest)](https://edgel3.readthedocs.io/en/latest/?badge=latest)
 
-Look, Listen, and Learn (L3) [3] Audio subnetwork produces generic audio representations that can be used for myriad downstream tasks. However, L3-Net Audio requires 18 MB and 12 MB of static and dynamic memory respectively, making it infeasible for small edge devices with a single microcontroller. [EdgeL3](https://github.com/ksangeeta2429/Publications/raw/master/EdgeL3_Compressing_L3_Net_for_Mote_Scale.pdf) [2] is competetive with L3 Audio while being 95.45% sparse. However, it still has a high activation memory requirement.
+Look, Listen, and Learn (L3) [4] Audio subnetwork produces generic audio representations that can be used for myriad downstream tasks. However, L3-Net Audio requires 18 MB and 12 MB of static and dynamic memory respectively, making it infeasible for small edge devices with a single microcontroller. [EdgeL3](https://github.com/ksangeeta2429/Publications/raw/master/EdgeL3_Compressing_L3_Net_for_Mote_Scale.pdf) [2] is competetive with L3 Audio while being 95.45% sparse. However, it still has a high activation memory requirement.
 
 To jointly handle both static and dynamic memory, we introduce [Specialized Embedding Approximation](https://github.com/ksangeeta2429/Publications/raw/master/SEA.pdf)[1], a teacher-student learning paradigm where the student audio embedding model is trained to approximate only the part of the teacher's embedding manifold which is relevant to the target data-domain. Notice the difference between data-domain and dataset. Restricting the specialization on a particular downstream dataset would compromise intra-domain generalizability.
 
@@ -15,7 +15,7 @@ To jointly handle both static and dynamic memory, we introduce [Specialized Embe
 - The ``sea`` models are specialized for [SONYC-UST](https://zenodo.org/record/2590742#.YGlc1i1h2Tc) [5] data domain [Source Code](https://github.com/ksangeeta2429/embedding-approx). 
 - The ``sparse`` models provided have been re-trained using two different mechanisms: fine-tuning ``ft`` and knowledge distillation ``kd`` [Source Code](https://github.com/ksangeeta2429/l3embedding/tree/dcompression).
 
-For non-compressed L3-Net, please refer to [OpenL3](https://github.com/marl/openl3) [2]
+For non-compressed L3-Net, please refer to [OpenL3](https://github.com/marl/openl3) [3]
 
 # Installing edgel3
 
@@ -56,7 +56,7 @@ To install the latest version of edgel3 from source:
 
 # Getting started with edgel3
 
-Load a UST specialized L3 audio (reduced input represenation and reduced architecture) that outputs an embedding of length 128
+Load a SONYC-UST specialized L3 audio (reduced input represenation and reduced architecture) that outputs an embedding of length 128
 ```python
 model = edgel3.models.load_embedding_model(model_type='sea', emb_dim=128)
 ```

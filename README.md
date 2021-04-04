@@ -7,9 +7,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/ksangeeta2429/edgel3/badge.svg?branch=master)](https://coveralls.io/github/ksangeeta2429/edgel3?branch=master)
 [![Documentation Status](https://readthedocs.org/projects/edgel3/badge/?version=latest)](https://edgel3.readthedocs.io/en/latest/?badge=latest)
 
-Look, Listen, and Learn (L3) [3] Audio subnetwork produces generic audio representations that can be used for myriad downstream tasks. However, L3-Net Audio is 18 MB in size and requires 12 MB of activation/dynamic memory, making it infeasible for small edge devices (usually a single microcontroller and limited memory for long-lived self-powered operation). [EdgeL3](https://github.com/ksangeeta2429/Publications/raw/master/EdgeL3_Compressing_L3_Net_for_Mote_Scale.pdf) [2] is competetive with L3 Audio while being 95.45% sparse. However, it still has a high activation memory requirement.
+Look, Listen, and Learn (L3) [3] Audio subnetwork produces generic audio representations that can be used for myriad downstream tasks. However, L3-Net Audio requires 18 MB and 12 MB of static and dynamic memory respectively, making it infeasible for small edge devices with a single microcontroller. [EdgeL3](https://github.com/ksangeeta2429/Publications/raw/master/EdgeL3_Compressing_L3_Net_for_Mote_Scale.pdf) [2] is competetive with L3 Audio while being 95.45% sparse. However, it still has a high activation memory requirement.
 
-To jointly handle both static and dynamic memory, we introduce [Specialized Embedding Approximation](https://github.com/ksangeeta2429/Publications/raw/master/SEA.pdf)[1], a teacher-student learning paradigm where the student audio embedding model is trained to approximate only the part of the teacher's embedding manifold which is relevant to the target domain. Notice the difference between data-domain and dataset. We do not restrict the specialization on a particular downstream dataset; which would have compromised intra-domain generalizability.
+To jointly handle both static and dynamic memory, we introduce [Specialized Embedding Approximation](https://github.com/ksangeeta2429/Publications/raw/master/SEA.pdf)[1], a teacher-student learning paradigm where the student audio embedding model is trained to approximate only the part of the teacher's embedding manifold which is relevant to the target data-domain. Notice the difference between data-domain and dataset. Restricting the specialization on a particular downstream dataset would compromise intra-domain generalizability.
 
 ``edgel3`` is an open-source Python library for downloading the smaller versions of L3 models and computing deep audio embeddings from such models. 
 - The ``sea`` models are specialized for [SONYC-UST](https://zenodo.org/record/2590742#.YGlc1i1h2Tc) [5] data domain [Source Code](https://github.com/ksangeeta2429/embedding-approx). 
@@ -23,7 +23,6 @@ Dependencies
 ------------
 #### Tensorflow
 ``edgel3`` has been tested with Tensorflow 2.0 and Keras 2.3.1. 
-Install Tensorflow (CPU-only/GPU) variant that best fits your usecase.
 
     pip install tensorflow==2.0.0
 
@@ -40,12 +39,12 @@ For more detailed information, please consult the
 
 Installing edgel3
 -----------------
-The simplest way to install EdgeL3 is by using ``pip``, which will also install the additional required dependencies
-if needed. To install EdgeL3 using ``pip``, simply run
+The simplest way to install edgel3 is by using ``pip``, which will also install the additional required dependencies
+if needed. To install edgel3 using ``pip``, simply run
 
     pip install edgel3
 
-To install the latest version of EdgeL3 from source:
+To install the latest version of edgel3 from source:
 
 1. Clone or pull the lastest version:
 
@@ -55,10 +54,24 @@ To install the latest version of EdgeL3 from source:
         cd edgel3
         pip install -e .
 
-# Using edgel3
+# Getting started with edgel3
 
-To help you get started with EdgeL3 please see the [tutorial](https://edgel3.readthedocs.io/en/latest/tutorial.html) and [module usage](https://edgel3.readthedocs.io/en/latest/edgel3.html).
+Load a UST specialized L3 audio (reduced input represenation and reduced architecture) that outputs an embedding of length 128
+```python
+model = edgel3.models.load_embedding_model(model_type='sea', emb_dim=128)
+```
 
+Load a 95.45% sparse L3 audio re-trained with fine-tuning
+```python
+model = edgel3.models.load_embedding_model(model_type='sparse', retrain_type='ft', sparsity=95.45)
+```
+
+Load a 90.5% sparse L3 audio re-trained with knowledge distillation
+```python
+model = edgel3.models.load_embedding_model(model_type='sparse', retrain_type='kd', sparsity=90.5)
+```
+
+For more examples, please see the [tutorial](https://edgel3.readthedocs.io/en/latest/tutorial.html) and [module usage](https://edgel3.readthedocs.io/en/latest/edgel3.html).
 
 # References
 

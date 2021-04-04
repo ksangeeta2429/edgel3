@@ -12,8 +12,8 @@ Look, Listen, and Learn (L3) [4] Audio subnetwork produces generic audio represe
 To jointly handle both static and dynamic memory, we introduce [Specialized Embedding Approximation](https://github.com/ksangeeta2429/Publications/raw/master/SEA.pdf)[1], a teacher-student learning paradigm where the student audio embedding model is trained to approximate only the part of the teacher's embedding manifold which is relevant to the target data-domain. Notice the difference between data-domain and dataset. Restricting the specialization on a particular downstream dataset would compromise intra-domain generalizability.
 
 ``edgel3`` is an open-source Python library for downloading the smaller versions of L3 models and computing deep audio embeddings from such models. 
-- The ``sea`` models are specialized for [SONYC-UST](https://zenodo.org/record/2590742#.YGlc1i1h2Tc) [5] data domain [Source Code](https://github.com/ksangeeta2429/embedding-approx). 
-- The ``sparse`` models provided have been re-trained using two different mechanisms: fine-tuning ``ft`` and knowledge distillation ``kd`` [Source Code](https://github.com/ksangeeta2429/l3embedding/tree/dcompression).
+- The ``sea`` models are specialized for [SONYC-UST](https://zenodo.org/record/2590742#.YGlc1i1h2Tc) [5] data domain. Training pipelines can be found [[here](https://github.com/ksangeeta2429/embedding-approx)]. 
+- The ``sparse`` models provided have been re-trained using two different mechanisms: fine-tuning ``ft`` and knowledge distillation ``kd``. Training pipelines can be found [[here](https://github.com/ksangeeta2429/l3embedding/tree/dcompression)].
 
 For non-compressed L3-Net, please refer to [OpenL3](https://github.com/marl/openl3) [3]
 

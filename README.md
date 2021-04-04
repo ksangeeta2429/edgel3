@@ -13,7 +13,7 @@ To jointly handle both static and dynamic memory, we introduce [Specialized Embe
 
 ``edgel3`` is an open-source Python library for downloading the smaller versions of L3 models and computing deep audio embeddings from such models. 
 - The ``sea`` models are specialized for [SONYC-UST](https://zenodo.org/record/2590742#.YGlc1i1h2Tc) [5] data domain [Source Code](https://github.com/ksangeeta2429/embedding-approx). 
-- The ``sparse`` models provided have been re-trained using two different mechanisms: fine-tuning (``ft``) and knowledge distillation (``kd``) [Source Code](https://github.com/ksangeeta2429/l3embedding/tree/dcompression).
+- The ``sparse`` models provided have been re-trained using two different mechanisms: fine-tuning ``ft`` and knowledge distillation ``kd`` [Source Code](https://github.com/ksangeeta2429/l3embedding/tree/dcompression).
 
 For non-compressed L3-Net, please refer to [OpenL3](https://github.com/marl/openl3) [2]
 
@@ -27,7 +27,7 @@ Dependencies
     pip install tensorflow==2.0.0
 
 #### libsndfile
-EdgeL3 depends on the `pysoundfile` module to load audio files, which depends on the non-Python library ``libsndfile``. On Windows and macOS, these will be installed via ``pip`` and you can therefore skip this step.
+**edgel3** depends on the `pysoundfile` module to load audio files, which depends on the non-Python library ``libsndfile``. On Windows and macOS, these will be installed via ``pip`` and you can therefore skip this step.
 However, on Linux this must be installed manually via your platform's package manager.
 For Debian-based distributions (such as Ubuntu), this can be done by simply running
 
@@ -75,7 +75,7 @@ For more examples, please see the [tutorial](https://edgel3.readthedocs.io/en/la
 
 # References
 
-Please cite the following papers when using EdgeL3 in your work:
+If you use the SEA/EdgeL3 Github repos or the pre-trained models, please cite the relevant work:
 
 [1] **[Specialized Embedding Approximation for Edge Intelligence: A case study in Urban Sound Classification](https://github.com/ksangeeta2429/Publications/raw/master/SEA.pdf)** <br/>
 Sangeeta Srivastava, Dhrubojyoti Roy, Mark Cartwright, Juan Pablo Bello, and Anish Arora. </br>

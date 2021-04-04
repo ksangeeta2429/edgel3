@@ -10,7 +10,6 @@ __________
 ``edgel3`` has been tested with Tensorflow 2.0 and Keras 2.3.1. 
 
 >>> pip install tensorflow==2.0.0
-Install Tensorflow (CPU-only/GPU) variant that best fits your use case.
 
 libsndfile
 __________

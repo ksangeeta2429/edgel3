@@ -1,14 +1,23 @@
 import os
 import sys
 import gzip
-import imp
 from itertools import product
 from setuptools import setup, find_packages
+from urllib.request import urlretrieve
 
-try:
-    from urllib.request import urlretrieve
-except ImportError:
-    from urllib import urlretrieve
+if sys.version_info[:2] >= (3, 3):
+    import platform
+    from importlib.machinery import SourceFileLoader
+    def load_source(name, path):
+        if not os.path.exists(path):
+            return {}
+        return vars(SourceFileLoader(name, path).load_module())
+else:
+    import imp
+    def load_source(name, path):
+        if not os.path.exists(path):
+            return {}
+        return vars(imp.load_source(name, path))
 
 module_dir = 'edgel3'
 retrain_type = ['ft', 'kd']
@@ -46,15 +55,15 @@ else:
             os.remove(compressed_path)
             print('Removing compressed file')
 
-version = imp.load_source('edgel3.version', os.path.join('edgel3', 'version.py'))
+version = load_source('edgel3.version', os.path.join('edgel3', 'version.py'))
 
 with open('README.md') as file:
     long_description = file.read()
 
 setup(
     name='edgel3',
-    version=version.version,
-    description='Audio embeddings based on pruned Look, Listen, and Learn (L3) models for the Edge',
+    version=version['version'],
+    description='Audio embeddings based on sparse or UST specialized (SEA) Look, Listen, and Learn (L3) models for the Edge',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/ksangeeta2429/edgel3',
@@ -77,7 +86,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    keywords='deep audio embeddings machine listening learning tensorflow keras pruning compression',
+    keywords='audio embeddings machine learning tensorflow keras pruning compression embedding approximation knowledge distillation',
     project_urls={
         'Source': 'https://github.com/ksangeeta2429/edgel3',
         'Tracker': 'https://github.com/ksangeeta2429/edgel3/issues',

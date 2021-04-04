@@ -3,16 +3,10 @@ import os
 import tempfile
 import numpy as np
 import shutil
-from edgel3.cli import positive_float, get_file_list, parse_args, run, main
+from edgel3.cli import positive_float, positive_int, get_file_list, parse_args, run, main
 from argparse import ArgumentTypeError
 from edgel3.edgel3_exceptions import EdgeL3Error
-
-try:
-    # python 3.4+ should use builtin unittest.mock not mock package
-    from unittest.mock import patch
-except ImportError:
-    from mock import patch
-
+from unittest.mock import patch
 
 TEST_DIR = os.path.dirname(__file__)
 TEST_AUDIO_DIR = os.path.join(TEST_DIR, 'data', 'audio')
@@ -73,16 +67,17 @@ def test_get_file_list():
 
     # test for valid folder
     flist = get_file_list([TEST_AUDIO_DIR])
-    assert len(flist) == 7
+    assert len(flist) == 8
 
     flist = sorted(flist)
     assert flist[0] == CHIRP_1S_PATH
     assert flist[1] == CHIRP_44K_PATH
-    assert flist[2] == CHIRP_MONO_PATH
-    assert flist[3] == CHIRP_STEREO_PATH
-    assert flist[4] == EMPTY_PATH
-    assert flist[5] == SHORT_PATH
-    assert flist[6] == SILENCE_PATH
+    assert flist[2] == CHIRP_8K_PATH
+    assert flist[3] == CHIRP_MONO_PATH
+    assert flist[4] == CHIRP_STEREO_PATH
+    assert flist[5] == EMPTY_PATH
+    assert flist[6] == SHORT_PATH
+    assert flist[7] == SILENCE_PATH
 
     # combine list of files and folders
     flist = get_file_list([TEST_AUDIO_DIR, CHIRP_44K_PATH])

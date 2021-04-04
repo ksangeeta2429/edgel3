@@ -41,10 +41,10 @@ def load_embedding_model(model_type, emb_dim, retrain_type, sparsity):
     # Construct embedding model and load model weights
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
+        kwargs = {'emb_dim': emb_dim, 'sparsity': sparsity}
         m = MODELS[model_type](**kwargs)
 
     m.load_weights(load_embedding_model_path(model_type, emb_dim, retrain_type, sparsity))
-    m = Model(inputs=m.input, outputs=y_a)
     return m
 
 def load_embedding_model_path(model_type, emb_dim, retrain_type, sparsity):
@@ -71,13 +71,13 @@ def load_embedding_model_path(model_type, emb_dim, retrain_type, sparsity):
         Path to given model object
 
     """
-    if model_type ='sea':
+    if model_type == 'sea':
         return os.path.join(os.path.dirname(__file__), 'edgel3_sea_ust_audio_emb_{}.h5'.format(emb_dim))
     else:
         return os.path.join(os.path.dirname(__file__),
                             'edgel3_{}_audio_sparsity_{}.h5'.format(retrain_type, sparsity))
 
-def _construct_sparsified_audio_network():
+def _construct_sparsified_audio_network(**kwargs):
     """
     Returns an uninitialized model object for a sparsified network with a Melspectrogram input (with 256 frequency bins).
 
@@ -174,7 +174,7 @@ def _construct_sparsified_audio_network():
 
     return m
 
-def _construct_ust_specialized_audio_network(emb_dim=128):
+def _construct_ust_specialized_audio_network(emb_dim=128, **kwargs):
     """
     Returns an uninitialized model object for a UST specialized audio network with a Melspectrogram input (with 64 frequency bins).
 

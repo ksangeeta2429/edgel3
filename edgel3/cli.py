@@ -1,4 +1,3 @@
-from __future__ import print_function
 import os
 import sys
 import sklearn.decomposition
@@ -7,7 +6,6 @@ from edgel3.core import process_file
 from edgel3.models import load_embedding_model
 from argparse import ArgumentParser, RawDescriptionHelpFormatter, ArgumentTypeError
 from collections import Iterable
-from six import string_types
 
 def positive_float(value):
     """An argparse type method for accepting only positive floats"""
@@ -36,7 +34,7 @@ def positive_int(value):
 def get_file_list(input_list):
     """Get list of files from the list of inputs"""
 
-    if not isinstance(input_list, Iterable) or isinstance(input_list, string_types):
+    if not isinstance(input_list, Iterable) or isinstance(input_list, str):
         raise ArgumentTypeError('input_list must be iterable (and not string)')
     file_list = []
     for item in input_list:
@@ -99,7 +97,7 @@ def run(
     -------
 
     """
-    if isinstance(inputs, string_types):
+    if isinstance(inputs, str):
         file_list = [inputs]
     elif isinstance(inputs, Iterable):
         file_list = get_file_list(inputs)
@@ -152,7 +150,7 @@ def parse_args(args):
     parser.add_argument('--emb-dim', '-e', type=positive_int, default=128,
                         choices=[512, 256, 128, 64],
                         help='Embedding dimension of the UST SEA model.'
-                             'Ignored for `sparse` models.)
+                             'Ignored for `sparse` models.')
 
     parser.add_argument('--retrain-type', '-retrain', type=str, default='ft',
                         choices=['ft', 'kd'],

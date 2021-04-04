@@ -125,7 +125,7 @@ def get_embedding(audio, sr, model=None, model_type='sparse', emb_dim=128, retra
                     model_type, 
                     emb_dim=emb_dim, 
                     retrain_type=retrain_type,
-                    sparsity=sarsity
+                    sparsity=sparsity
                 )
 
     audio_len = audio.size

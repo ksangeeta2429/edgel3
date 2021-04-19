@@ -79,16 +79,7 @@ def test_load_embedding_model():
     m = load_embedding_model('sparse', 128, 'ft', 72.3)
     assert m.output_shape[1] == 512
 
-    m = load_embedding_model('sparse', 128, 'ft', 73.5)
-    assert m.output_shape[1] == 512
-
-    m = load_embedding_model('sparse', 128, 'ft', 81.0)
-    assert m.output_shape[1] == 512
-
     m = load_embedding_model('sparse', 128, 'ft', 87.0)
-    assert m.output_shape[1] == 512
-
-    m = load_embedding_model('sparse', 128, 'ft', 90.5)
     assert m.output_shape[1] == 512
 
     m = load_embedding_model('sparse', 128, 'ft', 95.45)
@@ -104,16 +95,7 @@ def test_load_embedding_model():
     m = load_embedding_model('sparse', 128, 'kd', 72.3)
     assert m.output_shape[1] == 512
 
-    m = load_embedding_model('sparse', 128, 'kd', 73.5)
-    assert m.output_shape[1] == 512
-
-    m = load_embedding_model('sparse', 128, 'kd', 81.0)
-    assert m.output_shape[1] == 512
-
     m = load_embedding_model('sparse', 128, 'kd', 87.0)
-    assert m.output_shape[1] == 512
-
-    m = load_embedding_model('sparse', 128, 'kd', 90.5)
     assert m.output_shape[1] == 512
 
     m = load_embedding_model('sparse', 128, 'kd', 95.45)

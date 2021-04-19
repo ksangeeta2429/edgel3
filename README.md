@@ -33,8 +33,7 @@ For Debian-based distributions (such as Ubuntu), this can be done by simply runn
 
     apt-get install libsndfile1
 
-For more detailed information, please consult the
-[`pysoundfile` installation documentation](https://pysoundfile.readthedocs.io/en/0.9.0/#installation>).
+For more detailed information, please consult the ``pysoundfile`` [installation documentation](https://pysoundfile.readthedocs.io/en/0.9.0/#installation>).
 
 
 Installing edgel3
@@ -66,9 +65,9 @@ Load a 95.45% sparse L3 audio re-trained with fine-tuning
 model = edgel3.models.load_embedding_model(model_type='sparse', retrain_type='ft', sparsity=95.45)
 ```
 
-Load a 90.5% sparse L3 audio re-trained with knowledge distillation
+Load a 87.0% sparse L3 audio re-trained with knowledge distillation
 ```python
-model = edgel3.models.load_embedding_model(model_type='sparse', retrain_type='kd', sparsity=90.5)
+model = edgel3.models.load_embedding_model(model_type='sparse', retrain_type='kd', sparsity=87.0)
 ```
 
 For more examples, please see the [tutorial](https://edgel3.readthedocs.io/en/latest/tutorial.html) and [module usage](https://edgel3.readthedocs.io/en/latest/edgel3.html).

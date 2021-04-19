@@ -43,6 +43,8 @@ if needed. To install edgel3 using ``pip``, simply run
 
     pip install edgel3
 
+NOTE: Use `v0.2.1` for both ``sparse`` and ``sea`` models. `v0.1.0` has only ``sparse`` models. 
+
 To install the latest version of edgel3 from source:
 
 1. Clone or pull the lastest version:
@@ -50,6 +52,7 @@ To install the latest version of edgel3 from source:
         git clone https://github.com/ksangeeta2429/edgel3.git
 
 2. Install using pip to handle python dependencies:
+        
         cd edgel3
         pip install -e .
 

@@ -46,25 +46,7 @@ def test_get_embedding():
     assert not np.any(np.isnan(emb1))
 
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=73.5, center=True, hop_size=hop_size, verbose=1)
-    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
-    #assert emb1.shape[1] == 512
-    assert not np.any(np.isnan(emb1))
-
-    audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=81.0, center=True, hop_size=hop_size, verbose=1)
-    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
-    #assert emb1.shape[1] == 512
-    assert not np.any(np.isnan(emb1))
-
-    audio, sr = sf.read(CHIRP_MONO_PATH)
     emb1, ts1 = get_embedding(audio, sr, model_type='sparse', retrain_type='ft', sparsity=87.0, center=True, hop_size=hop_size, verbose=1)
-    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
-    #assert emb1.shape[1] == 512
-    assert not np.any(np.isnan(emb1))
-
-    audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='ft', sparsity=90.5, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))
@@ -96,25 +78,7 @@ def test_get_embedding():
     assert not np.any(np.isnan(emb1))
 
     audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='kd', sparsity=73.5, center=True, hop_size=hop_size, verbose=1)
-    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
-    #assert emb1.shape[1] == 512
-    assert not np.any(np.isnan(emb1))
-
-    audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='kd', sparsity=81.0, center=True, hop_size=hop_size, verbose=1)
-    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
-    #assert emb1.shape[1] == 512
-    assert not np.any(np.isnan(emb1))
-
-    audio, sr = sf.read(CHIRP_MONO_PATH)
     emb1, ts1 = get_embedding(audio, sr, retrain_type='kd', sparsity=87.0, center=True, hop_size=hop_size, verbose=1)
-    assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
-    #assert emb1.shape[1] == 512
-    assert not np.any(np.isnan(emb1))
-
-    audio, sr = sf.read(CHIRP_MONO_PATH)
-    emb1, ts1 = get_embedding(audio, sr, retrain_type='kd', sparsity=90.5, center=True, hop_size=hop_size, verbose=1)
     assert np.all(np.abs(np.diff(ts1) - hop_size) < tol)
     #assert emb1.shape[1] == 512
     assert not np.any(np.isnan(emb1))

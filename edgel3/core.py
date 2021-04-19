@@ -53,7 +53,7 @@ def get_embedding(audio, sr, model=None, model_type='sparse', emb_dim=128, retra
     retrain_type : {'ft', 'kd'}
         Type of retraining for the sparsified weights of L3 audio model. `ft` chooses the fine-tuning method
         and `kd` returns knowledge distilled model.
-    sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
+    sparsity : {95.45, 53.5, 63.5, 72.3, 87.0}
         The desired sparsity of audio model.
     center : boolean
         If True, pads beginning of signal so timestamps correspond
@@ -94,7 +94,7 @@ def get_embedding(audio, sr, model=None, model_type='sparse', emb_dim=128, retra
     if not isinstance(sparsity, Real) or sparsity <= 0:
         raise EdgeL3Error('Invalid sparsity value {}'.format(sparsity))
 
-    if sparsity not in (53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5, 95.45):
+    if sparsity not in (53.5, 63.5, 72.3, 87.0, 95.45):
         raise EdgeL3Error('Invalid sparsity value {}'.format(sparsity))
 
     if not isinstance(hop_size, Real) or hop_size <= 0:
@@ -179,7 +179,7 @@ def process_file(filepath, output_dir=None, suffix=None, model=None, model_type=
         If `sea` is selected, the audio model is a UST specialized (SEA) model. `sparse` gives a sparse L3 model with the desired 'sparsity'.
     emb_dim : {512, 256, 128, 64}
         Desired embedding dimension of the UST specialized embedding approximated (SEA) models. Not used for `sparse` models.
-    sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
+    sparsity : {95.45, 53.5, 63.5, 72.3, 87.0}
         The desired sparsity of audio model.
     center : boolean
         If True, pads beginning of signal so timestamps correspond

@@ -21,7 +21,7 @@ else:
 
 module_dir = 'edgel3'
 retrain_type = ['ft', 'kd']
-sparsity = ['53.5', '63.5', '72.3', '73.5', '81.0', '87.0', '90.5', '95.45']
+sparsity = ['53.5', '63.5', '72.3', '87.0', '95.45']
 emb_dim_for_SEA = [512, 256, 128, 64]
 
 # Add SEA student models

@@ -29,7 +29,7 @@ def load_embedding_model(model_type, emb_dim, retrain_type, sparsity):
     retrain_type : 'ft' or 'kd'
         Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method 
         and 'kd' returns knowledge distilled model. 
-    sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
+    sparsity : {95.45, 53.5, 63.5, 72.3, 87.0}
         The desired sparsity of audio model.
 
     Returns
@@ -62,7 +62,7 @@ def load_embedding_model_path(model_type, emb_dim, retrain_type, sparsity):
     retrain_type : 'ft' or 'kd'
         Type of retraining for the sparsified weights of L3 audio model. 'ft' chooses the fine-tuning method 
         and 'kd' returns knowledge distilled model. 
-    sparsity : {95.45, 53.5, 63.5, 72.3, 73.5, 81.0, 87.0, 90.5}
+    sparsity : {95.45, 53.5, 63.5, 72.3, 87.0}
         Desired sparsity of the audio model.
 
     Returns

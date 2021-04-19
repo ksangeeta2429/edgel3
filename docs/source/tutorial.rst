@@ -34,7 +34,7 @@ The second object ``ts`` is a length-T numpy array containing timestamps corresp
 
 These defaults for **sparse** models be changed via the following optional parameters:
 
-* ``sparsity``:  53.5, 63.5, 72.3, 81.0, 87.0, 90.5, or 95.45 (default)
+* ``sparsity``:  53.5, 63.5, 72.3, 87.0, or 95.45 (default)
 
 * ``retrain_type``: "kd", "ft" (default)
 
